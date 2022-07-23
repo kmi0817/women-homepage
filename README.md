@@ -9,4 +9,6 @@ npm install method-override
 npm install --save-dev nodemon
 npm install mysql
 npm install http
+npm install crypto --save
+npm install sanitize-html // XXS 관련 보안 라이브러리
 ```
