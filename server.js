@@ -5,6 +5,7 @@ const http = require("http");
 // router
 const bbsRouter = require("./routes/bbs");
 const nanumteoRouter = require("./routes/nanumteo");
+const adminRouter = require("./routes/admin");
 
 const app = express();
 const server = http.createServer(app);
@@ -32,6 +33,7 @@ app.get("/sostt", async (req, res) => {
 
 app.use("/bbs", bbsRouter);
 app.use("/nanumteo", nanumteoRouter);
+app.use("/admin", adminRouter);
 
 server.listen(3000, () => {
     console.log("localhost:3000 runs");
