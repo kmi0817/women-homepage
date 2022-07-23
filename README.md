@@ -8,4 +8,5 @@ npm install ejs
 npm install method-override
 npm install --save-dev nodemon
 npm install mysql
+npm install http
 ```
