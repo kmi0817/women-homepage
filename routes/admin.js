@@ -24,7 +24,7 @@ connection.connect((err) => {
 
 // 대시보드
 router.get("/", async (req, res) => {
-    res.render("index.html");
+    res.render("index");
 });
 
 // 회원 관리
@@ -32,7 +32,7 @@ router.get("/users", async (req, res) => {
     const sql = `SELECT no, name, id, created_at FROM users`;
     connection.query(sql, (err, ret, fields) => {
         if (err) throw err;
-        res.render("users.html", { users: ret });
+        res.render("users", { users: ret});
     });
 });
 
