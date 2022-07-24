@@ -11,4 +11,5 @@ npm install mysql
 npm install http
 npm install crypto --save
 npm install sanitize-html // XXS 관련 보안 라이브러리
+npm install xlsx
 ```
