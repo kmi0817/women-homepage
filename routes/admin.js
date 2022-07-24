@@ -38,6 +38,11 @@ router.get("/users", async (req, res) => {
     });
 });
 
+// 관리자 정보
+router.get("/mypage", async (req, res) => {
+    res.render("mypage", { name: "관리자", id: "admin", created_at: "2009-08-08 13:02:19" });
+});
+
 // 후원 신청 현황
 router.get("/sponsorship", async (req, res) => {
     res.render("sponsorship");
@@ -117,6 +122,32 @@ router.get("/export", async (req, res) => {
             res.sendFile(path.join(__dirname, "../static/temp.xlsx"));
         });
     }
+});
+
+// 비밀번호 변경
+router.patch("/change", async (req, res) => {
+    connection.query("SELECT * FROM users WHERE name='관리자' LIMIT 1", (err, ret, fields) => {
+        if (err) throw err;
+
+        // 입력 비밀번호에 해시화 적용
+        const input_password = crypto.pbkdf2Sync(sanitizeHtml(req.body.originalPassword), ret[0]["salt"], 198922, 64, "sha512").toString("base64");
+
+        if (input_password === ret[0]["password"]) { // when hashed input-password == saved password in DB
+            const salt = crypto.randomBytes(64).toString("base64"); // new salt value
+            const new_password = crypto.pbkdf2Sync(sanitizeHtml(req.body.newPassword), salt, 198922, 64, "sha512").toString("base64"); // new hashed password
+            
+            const sql = `UPDATE users SET salt='${salt}', password='${new_password}' WHERE name='관리자'`;
+            connection.query(sql, (err, ret, fields) => {
+                if (err) throw err;
+
+                console.log("** Password changed");
+                res.redirect("/admin/mypage");
+                // res.send(`<script>alert("비밀번호가 변경되었습니다."); history.go(-1); location.reload();</script>`);
+            });
+        } else {
+            res.send(`<script>alert("비밀번호가 일치하지 않습니다."); history.go(-1);</script>`);
+        }
+    });
 });
 
 module.exports = router;
