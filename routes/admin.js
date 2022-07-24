@@ -3,6 +3,8 @@ const router = express.Router();
 const mysql = require("mysql");
 const sanitizeHtml = require("sanitize-html");
 const crypto = require("crypto");
+const xlsx = require("xlsx");
+const path = require("path");
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -85,6 +87,36 @@ router.post("/register", async (req, res) => {
     });
 
     res.redirect("/admin/users");
+});
+
+// Export to XLSX
+router.get("/export", async (req, res) => {
+    const param = req.query.data;
+
+    if (param === "users") {
+        connection.query("SELECT * FROM users", (err, ret, fields) => {
+            if (err) throw err;
+    
+            let data = [];
+            ret.forEach((row) => {
+                data.push([
+                    row["no"],
+                    row["name"],
+                    row["id"],
+                    row["password"],
+                    row["salt"],
+                    row["created_at"]
+                ]);
+            });
+    
+            let worksheet = xlsx.utils.aoa_to_sheet(data),
+                workbook = xlsx.utils.book_new();
+            xlsx.utils.book_append_sheet(workbook, worksheet, "temp");
+            xlsx.writeFile(workbook, "static/temp.xlsx");
+            console.log(path.join(__dirname, "../static/temp.xlsx"));
+            res.sendFile(path.join(__dirname, "../static/temp.xlsx"));
+        });
+    }
 });
 
 module.exports = router;
