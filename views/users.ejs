@@ -367,21 +367,33 @@
                         For more information about DataTables, please visit the <a target="_blank"
                             href="https://datatables.net">official DataTables documentation</a>.</p>
 
-                    <!-- 회원 추가 -->
-                    <form class="row mb-4" action="/admin/register" method="POST">
-                        <div class="col-3">
-                            <input type="text" class="form-control" placeholder="닉네임" name="name">
+                    <!-- 회원 추가: Collapsable Card Example -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                            <h6 class="m-0 font-weight-bold text-primary">회원 추가</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="collapseCardExample">
+                            <div class="card-body">
+                                <form class="row" action="/admin/register" method="POST">
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" placeholder="닉네임" name="name">
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="form-control" placeholder="아이디" name="id">
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="password" class="form-control" placeholder="비밀번호" name="password">
+                                    </div>
+                                    <div class="col-3">
+                                        <button type="submit" class="btn btn-outline-primary w-100 font-weight-bold">등록</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-3">
-                            <input type="text" class="form-control" placeholder="아이디" name="id">
-                        </div>
-                        <div class="col-3">
-                            <input type="password" class="form-control" placeholder="비밀번호" name="password">
-                        </div>
-                        <div class="col-3">
-                            <button type="submit" class="btn btn-light">등록</button>
-                        </div>
-                    </form>
+                    </div>
 
                     <!-- Users -->
                     <div class="card shadow mb-4">
