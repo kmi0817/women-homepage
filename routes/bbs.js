@@ -37,17 +37,15 @@ router.get("/gallery", async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-    if (req.query.bbs === "board") {
-        const sql = `INSERT INTO board(title, writer, description) VALUES('${sanitizeHtml(req.body.title)}', '${sanitizeHtml(req.body.writer)}', '${sanitizeHtml(req.body.description)}')`;
-        connection.query(sql, (err, ret, fields) => {
-            if (err) {
-                throw err;
-            } else {
-                console.log("** a posting in board has been saved in DB");
-                res.redirect("/bbs");
-            }
-        })
-    }
+    const sql = `INSERT INTO ${sanitizeHtml(req.query.bbs)}(title, writer, description) VALUES('${sanitizeHtml(req.body.title)}', '${sanitizeHtml(req.body.writer)}', '${sanitizeHtml(req.body.description)}')`;
+    connection.query(sql, (err, ret, fields) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log("** a posting in board has been saved in DB");
+            res.redirect("/bbs");
+        }
+    })
 });
 
 module.exports = router;
