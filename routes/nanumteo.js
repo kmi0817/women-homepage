@@ -55,7 +55,7 @@ router.post("/process", async (req, res) => {
             };
         });
     } else if (req.query.nanum === "volunteerwork") {
-        const sql = `INSERT INTO volunteerwork(name, tel, hp, addr1, addr2, addr3, email, exprience, textarea, begin_date, end_date, speak) VALUES('${sanitizeHtml(req.body.name)}', '${sanitizeHtml(req.body.tel)}', '${sanitizeHtml(req.body.hp)}', ${sanitizeHtml(req.body.addr1)}, '${sanitizeHtml(req.body.addr2)}', '${sanitizeHtml(req.body.addr3)}', '${sanitizeHtml(req.body.email)}', ${sanitizeHtml(req.body.exprience)}, '${sanitizeHtml(req.body.textarea)}', '${sanitizeHtml(req.body.begin_date)}', '${sanitizeHtml(req.body.end_date)}', '${sanitizeHtml(req.body.speak)}')`;
+        const sql = `INSERT INTO volunteerwork(name, tel, hp, addr1, addr2, addr3, email, exprience, description, begin_date, end_date, speak) VALUES('${sanitizeHtml(req.body.name)}', '${sanitizeHtml(req.body.tel)}', '${sanitizeHtml(req.body.hp)}', ${sanitizeHtml(req.body.addr1)}, '${sanitizeHtml(req.body.addr2)}', '${sanitizeHtml(req.body.addr3)}', '${sanitizeHtml(req.body.email)}', ${sanitizeHtml(req.body.exprience)}, '${sanitizeHtml(req.body.description)}', '${sanitizeHtml(req.body.begin_date)}', '${sanitizeHtml(req.body.end_date)}', '${sanitizeHtml(req.body.speak)}')`;
         connection.query(sql, (err, ret, fields) => {
             if (err) {
                 throw err;
