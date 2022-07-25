@@ -168,4 +168,17 @@ router.post("/create", async (req, res) => {
     })
 });
 
+router.delete("/delete/:no", async (req, res) => {
+    const bbs = sanitizeHtml(req.query.bbs);
+    const sql = `UPDATE ${bbs} SET is_deleted=1 WHERE no=${req.params.no}`;
+    connection.query(sql, (err, ret, fields) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log(`${req.params.no} posting in ${bbs} has been deleted from DB`);
+            res.redirect(`/admin/${bbs}`);
+        }
+    })
+});
+
 module.exports = router;
