@@ -150,4 +150,22 @@ router.patch("/change", async (req, res) => {
     });
 });
 
+/* 게시글 CRUD */
+router.post("/create", async (req, res) => {
+    const bbs = sanitizeHtml(req.query.bbs);
+    const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${sanitizeHtml(req.body.title)}', '${sanitizeHtml(req.body.writer)}', '${sanitizeHtml(req.body.description)}')`;
+    connection.query(sql, (err, ret, fields) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log(`a posting in ${bbs} has been saved in DB`);
+            if (bbs === "board") {
+                res.redirect("/bbs");
+            } else {
+                res.redirect(`/bbs/${bbs}`);
+            }
+        }
+    })
+});
+
 module.exports = router;
