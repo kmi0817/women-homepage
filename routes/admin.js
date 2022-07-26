@@ -179,6 +179,23 @@ router.post("/create", async (req, res) => {
     })
 });
 
+router.patch("/update/:no", async (req, res) => {
+    const bbs = sanitizeHtml(req.query.bbs);
+
+    const title = sanitizeHtml(req.body.title);
+    const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>');
+
+    const sql = `UPDATE ${bbs} SET title='${title}', description='${description}' WHERE no=${req.params.no}`;
+    connection.query(sql, (err, ret, fields) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log(`${req.params.no} posting in ${bbs} has been updated in DB`);
+            res.redirect(`/admin/${bbs}`);
+        }
+    });
+});
+
 router.delete("/delete/:no", async (req, res) => {
     const bbs = sanitizeHtml(req.query.bbs);
     const sql = `UPDATE ${bbs} SET is_deleted=1 WHERE no=${req.params.no}`;
