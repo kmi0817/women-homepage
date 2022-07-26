@@ -22,6 +22,10 @@
 
     <!-- Custom styles for this page -->
     <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+    <!-- Include stylesheet -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -419,14 +423,19 @@
                         <!-- Card Header - Accordion -->
                         <a href="#posting_create" class="d-block card-header py-3" data-toggle="collapse"
                             role="button" aria-expanded="true" aria-controls="posting_create">
-                            <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">게시글 작성</h6>
                         </a>
                         <!-- Card Content - Collapse -->
                         <div class="collapse show" id="posting_create">
                             <div class="card-body">
-                                This is a collapsable card example using Bootstrap's built in collapse
-                                functionality. <strong>Click on the card header</strong> to see the card body
-                                collapse and expand!
+                                <!-- Create the editor container -->
+                                <div id="editor" class="mb-4">
+                                    <p>Hello World!</p>
+                                    <p>Some initial <strong>bold</strong> text</p>
+                                    <p><br></p>
+                                    <p>https://quilljs.com/docs/api/#getlines-experimental</p>
+                                </div>
+                                <button type="button" id="btn_create" class="btn btn-primary">확인</button>
                             </div>
                         </div>
                     </div>
@@ -552,6 +561,16 @@
 
     <!-- Page level custom scripts -->
     <script src="../js/demo/datatables-demo.js"></script>
+
+    <!-- Include the Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+    <!-- Initialize Quill editor -->
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    </script>
 </body>
 
 </html>
