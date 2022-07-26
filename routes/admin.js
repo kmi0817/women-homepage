@@ -63,28 +63,35 @@ router.get("/board", async (req, res) => {
     connection.query("SELECT * FROM board", (err, ret, fields) => {
         if (err) throw err;
 
-        connection.query("SELECT description FROM board WHERE no=10", (err2, ret2, fields2) => {
-            if (err2) throw err2;
-
-            const selected_posting = ret2[0]['description'].replace(/<br/g, '\n');
-            res.render("board", { bbs: "공지사항", postings: ret, selected_posting: selected_posting});
-        });
-    })
+        res.render("bbs", { bbs: "board", bbs_kor: "공지사항", postings: ret });
+    });
 });
 
 // 시설 이미지 관리
 router.get("/images", async (req, res) => {
-    res.render("images");
+    connection.query("SELECT * FROM images", (err, ret, fields) => {
+        if (err) throw err;
+
+        res.render("bbs", { bbs: "images", bbs_kor: "시설 이미지", postings: ret });
+    });
 });
 
 // 자유 게시판 관리
 router.get("/community", async (req, res) => {
-    res.render("community");
+    connection.query("SELECT * FROM community", (err, ret, fields) => {
+        if (err) throw err;
+
+        res.render("bbs", { bbs: "community", bbs_kor: "자유 게시판", postings: ret });
+    });
 });
 
 // 포토 갤러리 관리
 router.get("/gallery", async (req, res) => {
-    res.render("gallery");
+    connection.query("SELECT * FROM gallery", (err, ret, fields) => {
+        if (err) throw err;
+
+        res.render("bbs", { bbs: "gallery", bbs_kor: "포토 갤러리", postings: ret });
+    });
 });
 
 // 회원 등록
