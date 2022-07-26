@@ -428,14 +428,23 @@
                         <!-- Card Content - Collapse -->
                         <div class="collapse show" id="posting_create">
                             <div class="card-body">
-                                <!-- Create the editor container -->
-                                <div id="editor" class="mb-4">
-                                    <p>Hello World!</p>
-                                    <p>Some initial <strong>bold</strong> text</p>
-                                    <p><br></p>
-                                    <p>https://quilljs.com/docs/api/#getlines-experimental</p>
-                                </div>
-                                <button type="button" id="btn_create" class="btn btn-primary">확인</button>
+                                <form id="form_create" action="/admin/create?bbs=board" method="POST">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" name="title" placeholder="제목">
+                                    </div>
+                                    <input type="hidden" name="writer" value="아무">
+                                    <!-- Create the editor container -->
+                                    <input name="description" type="hidden">
+                                    <div id="editor" class="input-group mb-3">
+                                        <p>Hello World!</p>
+                                        <p>Some initial <strong>bold</strong> text</p>
+                                        <p><br></p>
+                                        <p>https://quilljs.com/docs/api/#getlines-experimental</p>
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <button type="submit" id="btn_create" class="btn btn-primary">확인</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -567,9 +576,43 @@
 
     <!-- Initialize Quill editor -->
     <script>
+        var toolbarOptions = [
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': [] }],
+
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'align': [] }],
+
+            ['clean']                                         // remove formatting button
+        ];
         var quill = new Quill('#editor', {
-            theme: 'snow'
+            theme: 'snow',
+            placeholder: '내용...',
+            modules: {
+                toolbar: toolbarOptions
+            }
         });
+
+        const form = document.querySelector("#form_create");
+        document.querySelector("#btn_create").addEventListener("click", () => {
+            var description = document.querySelector("input[name=description");
+            description.value = JSON.stringify(quill.getContents());
+
+            console.log($(form).serialize());
+            console.log($(form).serializeArray());
+
+            alert("Open console");
+        })
     </script>
 </body>
 
