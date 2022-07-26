@@ -60,7 +60,11 @@ router.get("/counsel", async (req, res) => {
 
 // 공지사항 관리
 router.get("/board", async (req, res) => {
-    res.render("board");
+    connection.query("SELECT * FROM board", (err, ret, fields) => {
+        if (err) throw err;
+
+        res.render("board", { bbs: "공지사항", postings: ret});
+    })
 });
 
 // 시설 이미지 관리

@@ -20,6 +20,8 @@
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this page -->
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -31,11 +33,11 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">관리자 페이지</div>
             </a>
 
             <!-- Divider -->
@@ -43,50 +45,26 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="/admin">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
-                    </div>
-                </div>
+                    <span>대시보드</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
+                    <span>유틸리티</span>
                 </a>
-                <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities"
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item active" href="utilities-other.html">Other</a>
+                        <a class="collapse-item" href="/admin/users">회원 관리</a>
+                        <a class="collapse-item" href="/admin/utilities-border">관리자 정보</a>
+                        <a class="collapse-item" href="/admin/utilities-animation">지출 내역</a>
+                        <a class="collapse-item" href="/admin/utilities-other">Other</a>
                     </div>
                 </div>
             </li>
@@ -96,42 +74,64 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Addons
+                사랑의 나눔터
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - 후원 -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
-            </li>
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="/admin/sponsorship">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span>후원</span></a>
+            </li>
+
+            <!-- Nav Item - 자원봉사 -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/volunteerwork">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>자원봉사</span></a>
+            </li>
+
+            <!-- Nav Item - 비밀상담 -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/counsel">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>비밀상담</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                게시판
+            </div>
+
+            <!-- Nav Item - 공지사항 -->
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/board">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>공지사항</span></a>
+            </li>
+
+            <!-- Nav Item - 시설 이미지 -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/images">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>시설 이미지</span></a>
+            </li>
+
+            <!-- Nav Item - 자유 게시판 -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/community">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>자유 게시판</span></a>
+            </li>
+
+            <!-- Nav Item - 포토 갤러리 -->
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/gallery">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>포토 갤러리</span></a>
             </li>
 
             <!-- Divider -->
@@ -359,46 +359,81 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-1 text-gray-800">Other Utilities</h1>
+                    <h1 class="h3 mb-1 text-gray-800"><%= bbs %></h1>
                     <p class="mb-4">Bootstrap's default utility classes can be found on the official <a
                             href="https://getbootstrap.com/docs">Bootstrap Documentation</a> page. The custom utilities
                         below were created to extend this theme past the default utility classes built into Bootstrap's
                         framework.</p>
 
+                    <!-- Postings Datatable: Collapsable Card -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#postings_list" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="postings_list">
+                            <h6 class="m-0 font-weight-bold text-primary">게시글 목록</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="postings_list">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>등록일시</th>
+                                                <th>삭제여부</th>
+                                                <th>제목</th>
+                                                <th>내용</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>등록일시</th>
+                                                <th>삭제여부</th>
+                                                <th>제목</th>
+                                                <th>내용</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        <% if (postings) { %>
+                                            <% postings.forEach((posting) => { %>
+                                            <tr>
+                                                <td><%= posting.no %></td>
+                                                <td><%= posting.created_at %></td>
+                                                <td><%= posting.is_deleted %></td>
+                                                <td><%= posting.title %></td>
+                                                <td><%= posting.description %></td>
+                                            </tr>
+                                            <% }) %>
+                                        <% } %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Posting Create: Collapsable Card -->
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Accordion -->
+                        <a href="#posting_create" class="d-block card-header py-3" data-toggle="collapse"
+                            role="button" aria-expanded="true" aria-controls="posting_create">
+                            <h6 class="m-0 font-weight-bold text-primary">Collapsable Card Example</h6>
+                        </a>
+                        <!-- Card Content - Collapse -->
+                        <div class="collapse show" id="posting_create">
+                            <div class="card-body">
+                                This is a collapsable card example using Bootstrap's built in collapse
+                                functionality. <strong>Click on the card header</strong> to see the card body
+                                collapse and expand!
+                            </div>
+                        </div>
+                    </div>
                     <!-- Content Row -->
                     <div class="row">
 
                         <div class="col-lg-6">
-
-                            <!-- Overflow Hidden -->
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Overflow Hidden Utilty</h6>
-                                </div>
-                                <div class="card-body">
-                                    Use <code>.o-hidden</code> to set the overflow property of any element to hidden.
-                                </div>
-                            </div>
-
-                            <!-- Progress Small -->
-                            <div class="card mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Progress Small Utility</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="mb-1 small">Normal Progress Bar</div>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div class="mb-1 small">Small Progress Bar</div>
-                                    <div class="progress progress-sm mb-2">
-                                        <div class="progress-bar" role="progressbar" style="width: 75%"
-                                            aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    Use the <code>.progress-sm</code> class along with <code>.progress</code>
-                                </div>
-                            </div>
 
                             <!-- Dropdown No Arrow -->
                             <div class="card mb-4">
@@ -426,16 +461,26 @@
 
                         <div class="col-lg-6">
 
-                            <!-- Roitation Utilities -->
-                            <div class="card">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Rotation Utilities</h6>
-                                </div>
-                                <div class="card-body text-center">
-                                    <div class="bg-primary text-white p-3 rotate-15 d-inline-block my-4">.rotate-15
-                                    </div>
-                                    <hr>
-                                    <div class="bg-primary text-white p-3 rotate-n-15 d-inline-block my-4">.rotate-n-15
+                            <!-- 게시글 등록: Collapsable Card Example -->
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Accordion -->
+                                <a href="#create" class="d-block card-header py-3" data-toggle="collapse"
+                                    role="button" aria-expanded="true" aria-controls="create">
+                                    <h6 class="m-0 font-weight-bold text-primary">게시글 등록</h6>
+                                </a>
+                                <!-- Card Content - Collapse -->
+                                <div class="collapse show" id="create">
+                                    <div class="card-body">
+                                        <form>
+                                                <div class="form-floating mb-3">
+                                                <input type="input" class="form-control" id="floatingTitle" placeholder="제목">
+                                                <label for="floatingTitle">제목</label>
+                                            </div>
+                                            <div class="form-floating">
+                                                <textarea class="form-control" id="floatingDescription" placeholder="내용"></textarea>
+                                                <label for="floatingDescription">내용</label>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -501,6 +546,12 @@
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
 
+    <!-- Page level plugins -->
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="../js/demo/datatables-demo.js"></script>
 </body>
 
 </html>
