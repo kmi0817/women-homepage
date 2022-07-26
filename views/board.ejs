@@ -363,7 +363,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-1 text-gray-800"><%= bbs %></h1>
+                    <h1 class="h3 mb-1 text-gray-800"><%= bbs_kor %></h1>
                     <p class="mb-4">Bootstrap's default utility classes can be found on the official <a
                             href="https://getbootstrap.com/docs">Bootstrap Documentation</a> page. The custom utilities
                         below were created to extend this theme past the default utility classes built into Bootstrap's
@@ -405,7 +405,13 @@
                                             <tr>
                                                 <td><%= posting.no %></td>
                                                 <td><%= posting.created_at %></td>
-                                                <td><%= posting.is_deleted %></td>
+                                                <td>
+                                                <% if (posting.is_deleted) { %>
+                                                    O
+                                                <% } else { %>
+                                                    X
+                                                <% } %>
+                                                </td>
                                                 <td><%= posting.title %></td>
                                                 <td><%= posting.description %></td>
                                             </tr>
@@ -428,7 +434,7 @@
                         <!-- Card Content - Collapse -->
                         <div class="collapse show" id="posting_create">
                             <div class="card-body">
-                                <form action="/admin/create?bbs=board" method="POST">
+                                <form action="/admin/create?bbs=<%= bbs %>" method="POST">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" name="title" placeholder="제목">
                                     </div>
