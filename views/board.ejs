@@ -428,7 +428,7 @@
                         <!-- Card Content - Collapse -->
                         <div class="collapse show" id="posting_create">
                             <div class="card-body">
-                                <form id="form_create" action="/admin/create?bbs=board" method="POST">
+                                <form action="/admin/create?bbs=board" method="POST">
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" name="title" placeholder="제목">
                                     </div>
@@ -603,16 +603,11 @@
             }
         });
 
-        const form = document.querySelector("#form_create");
         document.querySelector("#btn_create").addEventListener("click", () => {
+            // name=description인 input에 텍스트 값을 할당함
             var description = document.querySelector("input[name=description");
             description.value = JSON.stringify(quill.getContents());
-
-            console.log($(form).serialize());
-            console.log($(form).serializeArray());
-
-            alert("Open console");
-        })
+        });
     </script>
 </body>
 
