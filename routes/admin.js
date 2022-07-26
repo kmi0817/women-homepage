@@ -63,7 +63,12 @@ router.get("/board", async (req, res) => {
     connection.query("SELECT * FROM board", (err, ret, fields) => {
         if (err) throw err;
 
-        res.render("board", { bbs: "공지사항", postings: ret});
+        connection.query("SELECT description FROM board WHERE no=10", (err2, ret2, fields2) => {
+            if (err2) throw err2;
+
+            const selected_posting = ret2[0]['description'].replace(/<br/g, '\n');
+            res.render("board", { bbs: "공지사항", postings: ret, selected_posting: selected_posting});
+        });
     })
 });
 
@@ -161,7 +166,7 @@ router.post("/create", async (req, res) => {
     // 게시글 정보
     const title = sanitizeHtml(req.body.title);
     const writer = sanitizeHtml(req.body.writer);
-    const description = req.body.description;
+    const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>');
 
     const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
     connection.query(sql, (err, ret, fields) => {
