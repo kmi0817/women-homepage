@@ -187,7 +187,7 @@ router.get("/export", async (req, res) => {
     }
 });
 
-/* 연혁, 게시글 C-UD (Create, Update, Delete) */
+/* C-UD (Create, Update, Delete) */
 router.post("/create", async (req, res) => {
     const menu = sanitizeHtml(req.query.menu);
 
@@ -200,6 +200,16 @@ router.post("/create", async (req, res) => {
         connection.query(sql, (error, results, fields) => {
             if (error) throw error;
             console.log("a history has been created");
+            res.send(results);
+        });
+    } else if (menu === "program") { /* 프로그램 흐름 및 소개 */
+        const title = sanitizeHtml(req.body.title);
+        const description = sanitizeHtml(req.body.description);
+
+        const sql = `INSERT INTO program(title, description) VALUES('${title}', '${description}')`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a program: ${title} has been created`);
             res.send(results);
         });
     } else if (menu === "bbs") { /* 게시판 */
@@ -235,7 +245,17 @@ router.patch("/update/:no", async (req, res) => {
             if (error) throw error;
             console.log(`a history${no} has been updated`);
             res.send(results);
-        })
+        });
+    } else if (menu === "program") { /* 프로그램 흐름 및 소개 */
+        const title = sanitizeHtml(req.body.title);
+        const description = sanitizeHtml(req.body.description);
+
+        const sql = `UPDATE program SET title='${title}', description='${description}' WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a program${no} has been created`);
+            res.send(results);
+        });
     } else if (menu === "bbs") { /* 게시판 */
         const bbs = sanitizeHtml(req.query.bbs);
 
@@ -263,6 +283,13 @@ router.delete("/delete/:no", async (req, res) => {
         connection.query(sql, (error, results, fields) => {
             if (error) throw error;
             console.log(`a history${no} has been deleted`);
+            res.send(results);
+        });
+    } else if (menu === "program") {
+        const sql = `DELETE FROM program WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a program${no} has been deleted`);
             res.send(results);
         });
     } else if (menu === "bbs") { /* 게시판 */
