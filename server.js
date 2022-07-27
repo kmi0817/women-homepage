@@ -1,7 +1,11 @@
 const express = require("express");
 const methodOverride = require("method-override");
 const http = require("http");
+
+// database
 const mysql = require("mysql");
+const dbConfig   = require('./config/database.js');
+const connection = mysql.createConnection(dbConfig);
 
 // router
 const bbsRouter = require("./routes/bbs");
@@ -19,24 +23,6 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.engine("html", require("ejs").renderFile);
-
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "women"
-});
-
-connection.connect((error) => {
-    if (error) {
-        console.erroror("mysql connection erroror");
-        console.log(error);
-        throw error;
-    } else {
-        console.log("DB OK");
-    }
-});
 
 app.get("/", async (req, res) => {
     const sql = `SELECT year, month, description FROM history`;
