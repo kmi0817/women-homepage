@@ -255,16 +255,28 @@ router.patch("/update/:no", async (req, res) => {
 });
 
 router.delete("/delete/:no", async (req, res) => {
-    const bbs = sanitizeHtml(req.query.bbs);
-    const sql = `UPDATE ${bbs} SET is_deleted=1 WHERE no=${req.params.no}`;
-    connection.query(sql, (error, results, fields) => {
-        if (error) {
-            throw error;
-        } else {
-            console.log(`a posting${req.params.no} in ${bbs} has been deleted from DB`);
+    const no = sanitizeHtml(req.params.no);
+    const menu = sanitizeHtml(req.query.menu);
+
+    if (menu === "history") { /* 연혁 */
+        const sql = `DELETE FROM history WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a history${no} has been deleted`);
+            res.send(results);
+        });
+    } else if (menu === "bbs") { /* 게시판 */
+        const bbs = sanitizeHtml(req.query.bbs);
+        const sql = `UPDATE ${bbs} SET is_deleted=1 WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a posting${no} in ${bbs} has been deleted`);
             res.redirect(`/admin/${bbs}`);
-        }
-    })
+        });
+    } else {
+        console.log("WRONG");
+        res.redirect(`/admin`);
+    }
 });
 
 module.exports = router;
