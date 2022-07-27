@@ -222,20 +222,36 @@ router.post("/create", async (req, res) => {
 });
 
 router.patch("/update/:no", async (req, res) => {
-    const bbs = sanitizeHtml(req.query.bbs);
+    const no = sanitizeHtml(req.params.no);
+    const menu = sanitizeHtml(req.query.menu);
 
-    const title = sanitizeHtml(req.body.title);
-    const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>');
+    if (menu === "history") { /* 연혁 */
+        const year = sanitizeHtml(req.body.year);
+        const month = sanitizeHtml(req.body.month);
+        const description = sanitizeHtml(req.body.description);
 
-    const sql = `UPDATE ${bbs} SET title='${title}', description='${description}' WHERE no=${req.params.no}`;
-    connection.query(sql, (error, results, fields) => {
-        if (error) {
-            throw error;
-        } else {
+        const sql = `UPDATE history SET year=${year}, month=${month}, description='${description}' WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a history${no} has been updated`);
+            res.send(results);
+        })
+    } else if (menu === "bbs") { /* 게시판 */
+        const bbs = sanitizeHtml(req.query.bbs);
+
+        const title = sanitizeHtml(req.body.title);
+        const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>');
+
+        const sql = `UPDATE ${bbs} SET title='${title}', description='${description}' WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
             console.log(`a posting: ${title} in ${bbs} has been updated in DB`);
             res.redirect(`/admin/${bbs}`);
-        }
-    });
+        });
+    } else {
+        console.log("WRONG");
+        res.redirect(`/admin`);
+    }
 });
 
 router.delete("/delete/:no", async (req, res) => {
