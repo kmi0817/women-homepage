@@ -1,6 +1,7 @@
 const express = require("express");
 const methodOverride = require("method-override");
 const http = require("http");
+const mysql = require("mysql");
 
 // router
 const bbsRouter = require("./routes/bbs");
@@ -19,12 +20,38 @@ app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 app.engine("html", require("ejs").renderFile);
 
+const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "women"
+});
+
+connection.connect((error) => {
+    if (error) {
+        console.erroror("mysql connection erroror");
+        console.log(error);
+        throw error;
+    } else {
+        console.log("DB OK");
+    }
+});
+
 app.get("/", async (req, res) => {
-    res.send("메인 페이지");
+    const sql = `SELECT year, month, description FROM history`;
+    connection.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    });
 });
 
 app.get("/program", async (req, res) => {
-    res.send("프로그램 안내");
+    const sql = `SELECT title, description FROM program`;
+    connection.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    });
 });
 
 app.get("/sostt", async (req, res) => {
