@@ -187,20 +187,38 @@ router.get("/export", async (req, res) => {
     }
 });
 
-/* 게시글 CRUD */
+/* 연혁, 게시글 C-UD (Create, Update, Delete) */
 router.post("/create", async (req, res) => {
-    const bbs = sanitizeHtml(req.query.bbs); // 게시판 종류
+    const menu = sanitizeHtml(req.query.menu);
 
-    const title = sanitizeHtml(req.body.title);
-    const writer = sanitizeHtml(req.body.writer);
-    const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>'); // 개행문자를 <br> 태그로 변경함
+    if (menu === "history") { /* 연혁 */
+        const year = sanitizeHtml(req.body.year);
+        const month = sanitizeHtml(req.body.month);
+        const description = sanitizeHtml(req.body.description);
 
-    const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
-    connection.query(sql, (error, results, fields) => {
-        if (error) throw error;
-        console.log(`a posting: ${title} in ${bbs} has been saved in DB`);
-        res.redirect(`/admin/${bbs}`);
-    })
+        const sql = `INSERT INTO history(year, month, description) VALUES('${year}', '${month}', '${description}')`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log("a history has been created");
+            res.send(results);
+        });
+    } else if (menu === "bbs") { /* 게시판 */
+        const bbs = sanitizeHtml(req.query.bbs); // 게시판 종류
+
+        const title = sanitizeHtml(req.body.title);
+        const writer = sanitizeHtml(req.body.writer);
+        const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>'); // 개행문자를 <br> 태그로 변경함
+
+        const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a posting: ${title} in ${bbs} has been created`);
+            res.redirect(`/admin/${bbs}`);
+        });
+    } else {
+        console.log("WRONG");
+        res.redirect(`/admin`);
+    }
 });
 
 router.patch("/update/:no", async (req, res) => {
