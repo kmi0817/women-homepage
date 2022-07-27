@@ -1,11 +1,25 @@
 const express = require("express");
 const router = express.Router();
+const mysql = require("mysql");
 const sanitizeHtml = require("sanitize-html");
 
-// database
-const mysql = require("mysql");
-const dbConfig   = require('../config/database.js');
-const connection = mysql.createConnection(dbConfig);
+const connection = mysql.createConnection({
+    host: "localhost",
+    port: 3306,
+    user: "root",
+    password: "",
+    database: "women"
+});
+
+connection.connect((err) => {
+    if (err) {
+        console.error("mysql connection error");
+        console.log(err);
+        throw err;
+    } else {
+        console.log("DB OK");
+    }
+});
 
 router.get("/", async (req, res) => {
     res.send("나눔터");
