@@ -120,6 +120,43 @@ router.delete("/withdraw/:no", async (req, res) => {
     })
 });
 
+router.patch("/change/:no", async (req, res) => {
+    const field = sanitizeHtml(req.query.field);
+    const no = sanitizeHtml(req.params.no);
+
+    if (field === "name") {
+        const name = sanitizeHtml(req.body.name);
+        const sql = `UPDATE users SET name='${name}' WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`name of user${no} has been changed`);
+        });
+    } else if (field === "password") {
+        connection.query(`SELECT * FROM users WHERE no=${no}`, (error, results, fields) => {
+            if (error) throw error;
+    
+            // apply hash algorithm to input password
+            const originalPassword = sanitizeHtml(req.body.originalPassword);
+            const input_password = crypto.pbkdf2Sync(originalPassword, results[0]["salt"], 198922, 64, "sha512").toString("base64");
+    
+            // check if hashed input password and hashed password saved in DB match
+            if (input_password === results[0]["password"]) {
+                const salt = crypto.randomBytes(64).toString("base64"); // new salt value
+                const new_password = crypto.pbkdf2Sync(sanitizeHtml(req.body.newPassword), salt, 198922, 64, "sha512").toString("base64"); // new hashed password
+                
+                const sql = `UPDATE users SET salt='${salt}', password='${new_password}' WHERE no=${no}`;
+                connection.query(sql, (error, results, fields) => {
+                    if (error) throw error;
+                    console.log(`password of user${no} has been changed`);
+                });
+            } else { console.log("password do not match"); }
+        });
+    } else {
+        console.log("unacceptable request to change");
+    }
+    res.redirect("/admin/mypage");
+});
+
 // Users: Export to XLSX
 router.get("/export", async (req, res) => {
     const param = req.query.data;
@@ -148,28 +185,6 @@ router.get("/export", async (req, res) => {
             res.sendFile(path.join(__dirname, "../static/temp.xlsx"));
         });
     }
-});
-
-// 비밀번호 변경
-router.patch("/change", async (req, res) => {
-    connection.query("SELECT * FROM users WHERE name='관리자' LIMIT 1", (error, results, fields) => {
-        if (error) throw error;
-
-        // 입력 비밀번호에 해시화 적용
-        const input_password = crypto.pbkdf2Sync(sanitizeHtml(req.body.originalPassword), results[0]["salt"], 198922, 64, "sha512").toString("base64");
-
-        if (input_password === results[0]["password"]) { // when hashed input-password == saved password in DB
-            const salt = crypto.randomBytes(64).toString("base64"); // new salt value
-            const new_password = crypto.pbkdf2Sync(sanitizeHtml(req.body.newPassword), salt, 198922, 64, "sha512").toString("base64"); // new hashed password
-            
-            const sql = `UPDATE users SET salt='${salt}', password='${new_password}' WHERE name='관리자'`;
-            connection.query(sql, (error, results, fields) => {
-                if (error) throw error;
-                console.log("admin's password has been changed");
-            });
-        } else { console.log("admin's password could not be changed"); }
-        res.redirect("/admin/mypage");
-    });
 });
 
 /* 게시글 CRUD */
