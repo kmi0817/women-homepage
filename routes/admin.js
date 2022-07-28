@@ -225,6 +225,17 @@ router.post("/create", async (req, res) => {
             console.log(`a posting: ${title} in ${bbs} has been created`);
             res.redirect(`/admin/${bbs}`);
         });
+    } else if (menu === "facility_history") {
+        const year = sanitizeHtml(req.body.year);
+        const month = sanitizeHtml(req.body.month);
+        const description = sanitizeHtml(req.body.description);
+
+        const sql = `INSERT INTO facility_history(year, month, description) VALUES('${year}', '${month}', '${description}')`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log("a facility_history has been created");
+            res.send(results);
+        });
     } else {
         console.log("WRONG");
         res.redirect(`/admin`);
@@ -268,6 +279,17 @@ router.patch("/update/:no", async (req, res) => {
             console.log(`a posting: ${title} in ${bbs} has been updated in DB`);
             res.redirect(`/admin/${bbs}`);
         });
+    } else if (menu === "facility_history") {
+        const year = sanitizeHtml(req.body.year);
+        const month = sanitizeHtml(req.body.month);
+        const description = sanitizeHtml(req.body.description);
+
+        const sql = `UPDATE facility_history SET year=${year}, month=${month}, description='${description}' WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a facility_history${no} has been updated`);
+            res.send(results);
+        });
     } else {
         console.log("WRONG");
         res.redirect(`/admin`);
@@ -299,6 +321,13 @@ router.delete("/delete/:no", async (req, res) => {
             if (error) throw error;
             console.log(`a posting${no} in ${bbs} has been deleted`);
             res.redirect(`/admin/${bbs}`);
+        });
+    } else if (menu === "facility_history") {
+        const sql = `DELETE FROM facility_history WHERE no=${no}`;
+        connection.query(sql, (error, results, fields) => {
+            if (error) throw error;
+            console.log(`a facility_history${no} has been deleted`);
+            res.send(results);
         });
     } else {
         console.log("WRONG");
