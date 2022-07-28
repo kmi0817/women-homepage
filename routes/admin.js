@@ -82,6 +82,14 @@ router.get("/gallery", async (req, res) => {
     });
 });
 
+// 소스뜨라 관리
+router.get("/sostt", async (req, res) => {
+    connection.query("SELECT * FROM sostt", (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    });
+});
+
 /* 회원 CRUD */
 router.post("/register", async (req, res) => {
     const name = sanitizeHtml(req.body.name);
@@ -319,6 +327,19 @@ router.delete("/delete/:no", async (req, res) => {
         console.log("WRONG");
         res.redirect(`/admin`);
     }
+});
+
+/* 소스뜨라: 소스뜨라는?, 시설 소개 내용 수정 */
+router.patch("/sostt", async (req, res) => {
+    const sosttIs = sanitizeHtml(req.body.sosttIs).replace(/'/g, "''"); // escape '
+    const facility = sanitizeHtml(req.body.facility).replace(/'/g, "''"); // escape '
+
+    const sql = `UPDATE sostt SET updated_at=NOW(), sosttIs='${sosttIs}', facility='${facility}'`;
+    connection.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        console.log(`sostt description has been changed`);
+        res.send(results);
+    });
 });
 
 module.exports = router;

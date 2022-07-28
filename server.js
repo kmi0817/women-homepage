@@ -41,10 +41,17 @@ app.get("/program", async (req, res) => {
 });
 
 app.get("/sostt", async (req, res) => {
-    const sql = `SELECT year, month, description FROM facility_history`;
+    let sql = `SELECT sosttIs, facility FROM sostt`; // 소스뜨라는? & 시설소개
     connection.query(sql, (error, results, fields) => {
         if (error) throw error;
-        res.send(results);
+
+        sql = `SELECT year, month, description FROM facility_history`; // 시설 연혁
+        connection.query(sql, (error2, results2, fields2) => {
+            if (error2) throw error2;
+
+            results.push(results2);
+            res.send(results);
+        });
     });
 });
 
