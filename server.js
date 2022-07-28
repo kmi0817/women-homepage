@@ -46,7 +46,7 @@ app.get("/sostt", async (req, res) => {
         if (error) throw error;
 
         sql = `SELECT year, month, description FROM facility_history`; // 시설 연혁
-        connection.query(sql, (error2, results22) => {
+        connection.query(sql, (error2, results2) => {
             if (error2) throw error2;
 
             results.push(results2);
