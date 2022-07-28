@@ -1,25 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const mysql = require("mysql");
 const sanitizeHtml = require("sanitize-html");
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "women"
-});
+// database
+const mysql = require("mysql");
+const config = require("../config.js");
+const connection = mysql.createConnection(config);
 
-connection.connect((err) => {
-    if (err) {
-        console.error("mysql connection error");
-        console.log(err);
-        throw err;
-    } else {
-        console.log("DB OK");
-    }
-});
 router.get("/", async (req, res) => {
     res.send("게시판 메인화면 겸 공지사항 페이지");
 });

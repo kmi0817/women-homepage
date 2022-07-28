@@ -1,28 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const mysql = require("mysql");
 const sanitizeHtml = require("sanitize-html");
 const crypto = require("crypto");
 const xlsx = require("xlsx");
 const path = require("path");
 
-const connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "women"
-});
-
-connection.connect((error) => {
-    if (error) {
-        console.erroror("mysql connection erroror");
-        console.log(error);
-        throw error;
-    } else {
-        console.log("DB OK");
-    }
-});
+// database
+const mysql = require("mysql");
+const config = require("../config.js");
+const connection = mysql.createConnection(config);
 
 // 대시보드
 router.get("/", async (req, res) => {
