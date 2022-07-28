@@ -188,7 +188,7 @@ router.post("/create", async (req, res) => {
     if (menu === "history") { /* 연혁 */
         const year = sanitizeHtml(req.body.year);
         const month = sanitizeHtml(req.body.month);
-        const description = sanitizeHtml(req.body.description);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `INSERT INTO history(year, month, description) VALUES('${year}', '${month}', '${description}')`;
         connection.query(sql, (error, results, fields) => {
@@ -197,8 +197,8 @@ router.post("/create", async (req, res) => {
             res.send(results);
         });
     } else if (menu === "program") { /* 프로그램 흐름 및 소개 */
-        const title = sanitizeHtml(req.body.title);
-        const description = sanitizeHtml(req.body.description);
+        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `INSERT INTO program(title, description) VALUES('${title}', '${description}')`;
         connection.query(sql, (error, results, fields) => {
@@ -209,9 +209,9 @@ router.post("/create", async (req, res) => {
     } else if (menu === "bbs") { /* 게시판 */
         const bbs = sanitizeHtml(req.query.bbs); // 게시판 종류
 
-        const title = sanitizeHtml(req.body.title);
+        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
         const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>'); // 개행문자를 <br> 태그로 변경함
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
         connection.query(sql, (error, results, fields) => {
@@ -222,7 +222,7 @@ router.post("/create", async (req, res) => {
     } else if (menu === "facility_history") {
         const year = sanitizeHtml(req.body.year);
         const month = sanitizeHtml(req.body.month);
-        const description = sanitizeHtml(req.body.description);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape ';
 
         const sql = `INSERT INTO facility_history(year, month, description) VALUES('${year}', '${month}', '${description}')`;
         connection.query(sql, (error, results, fields) => {
@@ -243,7 +243,7 @@ router.patch("/update/:no", async (req, res) => {
     if (menu === "history") { /* 연혁 */
         const year = sanitizeHtml(req.body.year);
         const month = sanitizeHtml(req.body.month);
-        const description = sanitizeHtml(req.body.description);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `UPDATE history SET year=${year}, month=${month}, description='${description}' WHERE no=${no}`;
         connection.query(sql, (error, results, fields) => {
@@ -252,8 +252,8 @@ router.patch("/update/:no", async (req, res) => {
             res.send(results);
         });
     } else if (menu === "program") { /* 프로그램 흐름 및 소개 */
-        const title = sanitizeHtml(req.body.title);
-        const description = sanitizeHtml(req.body.description);
+        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape ';
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape ';
 
         const sql = `UPDATE program SET title='${title}', description='${description}' WHERE no=${no}`;
         connection.query(sql, (error, results, fields) => {
@@ -264,8 +264,8 @@ router.patch("/update/:no", async (req, res) => {
     } else if (menu === "bbs") { /* 게시판 */
         const bbs = sanitizeHtml(req.query.bbs);
 
-        const title = sanitizeHtml(req.body.title);
-        const description = sanitizeHtml(req.body.description).replace(/\\n/g, '<br>');
+        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape ';
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `UPDATE ${bbs} SET title='${title}', description='${description}' WHERE no=${no}`;
         connection.query(sql, (error, results, fields) => {
@@ -276,7 +276,7 @@ router.patch("/update/:no", async (req, res) => {
     } else if (menu === "facility_history") {
         const year = sanitizeHtml(req.body.year);
         const month = sanitizeHtml(req.body.month);
-        const description = sanitizeHtml(req.body.description);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape ';
 
         const sql = `UPDATE facility_history SET year=${year}, month=${month}, description='${description}' WHERE no=${no}`;
         connection.query(sql, (error, results, fields) => {
