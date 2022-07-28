@@ -41,7 +41,11 @@ app.get("/program", async (req, res) => {
 });
 
 app.get("/sostt", async (req, res) => {
-    res.send("소스뜨라");
+    const sql = `SELECT year, month, description FROM facility_history`;
+    connection.query(sql, (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+    });
 });
 
 app.use("/bbs", bbsRouter);
