@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 // 회원 관리
 router.get("/users", async (req, res) => {
     const sql = `SELECT no, name, id, created_at FROM users`;
-    connection.query(sql, (error, results, fields) => {
+    connection.query(sql, (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -32,7 +32,7 @@ router.get("/mypage", async (req, res) => {
 // 후원 신청 현황
 router.get("/sponsorship", async (req, res) => {
     const sql = `SELECT * FROM sponsorship`;
-    connection.query(sql, (error, results, fields) => {
+    connection.query(sql, (error, results) => {
         res.send(results);
     });
 });
@@ -40,7 +40,7 @@ router.get("/sponsorship", async (req, res) => {
 // 자원봉사 신청 현황
 router.get("/volunteerwork", async (req, res) => {
     const sql = `SELECT * FROM volunteerwork`;
-    connection.query(sql, (error, results, fields) => {
+    connection.query(sql, (error, results) => {
         res.send(results);
     });
 });
@@ -52,7 +52,7 @@ router.get("/counsel", async (req, res) => {
 
 // 공지사항 관리
 router.get("/board", async (req, res) => {
-    connection.query("SELECT * FROM board", (error, results, fields) => {
+    connection.query("SELECT * FROM board", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -60,7 +60,7 @@ router.get("/board", async (req, res) => {
 
 // 시설 이미지 관리
 router.get("/images", async (req, res) => {
-    connection.query("SELECT * FROM images", (error, results, fields) => {
+    connection.query("SELECT * FROM images", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -68,7 +68,7 @@ router.get("/images", async (req, res) => {
 
 // 자유 게시판 관리
 router.get("/community", async (req, res) => {
-    connection.query("SELECT * FROM community", (error, results, fields) => {
+    connection.query("SELECT * FROM community", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -76,7 +76,7 @@ router.get("/community", async (req, res) => {
 
 // 포토 갤러리 관리
 router.get("/gallery", async (req, res) => {
-    connection.query("SELECT * FROM gallery", (error, results, fields) => {
+    connection.query("SELECT * FROM gallery", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -84,7 +84,7 @@ router.get("/gallery", async (req, res) => {
 
 // 소스뜨라 관리
 router.get("/sostt", async (req, res) => {
-    connection.query("SELECT * FROM sostt", (error, results, fields) => {
+    connection.query("SELECT * FROM sostt", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -98,7 +98,7 @@ router.post("/register", async (req, res) => {
     const password = crypto.pbkdf2Sync(sanitizeHtml(req.body.password), salt, 198922, 64, "sha512").toString("base64");
 
     const sql = `INSERT INTO users(name, id, password, salt) VALUES('${name}', '${id}', '${password}', '${salt}')`;
-    connection.query(sql, (error, results, fields) => {
+    connection.query(sql, (error, results) => {
         if (error) throw error;
         console.log(`a user(${name}) has been registered in DB`);
         res.redirect("/admin/users");
@@ -107,7 +107,7 @@ router.post("/register", async (req, res) => {
 
 router.delete("/withdraw/:no", async (req, res) => {
     const sql = `UPDATE users SET is_withdrawn=1 WHERE no=${req.params.no}`;
-    connection.query(sql, (error, results, fields) => {
+    connection.query(sql, (error, results) => {
         if (error) throw error;
         console.log(`a user${req.params.no} has been withdrawn from DB`);
         res.redirect(`/admin/users`);
@@ -121,12 +121,12 @@ router.patch("/change/:no", async (req, res) => {
     if (field === "name") {
         const name = sanitizeHtml(req.body.name);
         const sql = `UPDATE users SET name='${name}' WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`name of user${no} has been changed`);
         });
     } else if (field === "password") {
-        connection.query(`SELECT * FROM users WHERE no=${no}`, (error, results, fields) => {
+        connection.query(`SELECT * FROM users WHERE no=${no}`, (error, results) => {
             if (error) throw error;
     
             // apply hash algorithm to input password
@@ -139,7 +139,7 @@ router.patch("/change/:no", async (req, res) => {
                 const new_password = crypto.pbkdf2Sync(sanitizeHtml(req.body.newPassword), salt, 198922, 64, "sha512").toString("base64"); // new hashed password
                 
                 const sql = `UPDATE users SET salt='${salt}', password='${new_password}' WHERE no=${no}`;
-                connection.query(sql, (error, results, fields) => {
+                connection.query(sql, (error, results) => {
                     if (error) throw error;
                     console.log(`password of user${no} has been changed`);
                 });
@@ -156,7 +156,7 @@ router.get("/export", async (req, res) => {
     const param = req.query.data;
 
     if (param === "users") {
-        connection.query("SELECT * FROM users", (error, results, fields) => {
+        connection.query("SELECT * FROM users", (error, results) => {
             if (error) throw error;
     
             let data = [];
@@ -191,7 +191,7 @@ router.post("/create", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `INSERT INTO history(year, month, description) VALUES('${year}', '${month}', '${description}')`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log("a history has been created");
             res.send(results);
@@ -201,7 +201,7 @@ router.post("/create", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `INSERT INTO program(title, description) VALUES('${title}', '${description}')`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a program: ${title} has been created`);
             res.send(results);
@@ -214,7 +214,7 @@ router.post("/create", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a posting: ${title} in ${bbs} has been created`);
             res.redirect(`/admin/${bbs}`);
@@ -225,7 +225,7 @@ router.post("/create", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape ';
 
         const sql = `INSERT INTO facility_history(year, month, description) VALUES('${year}', '${month}', '${description}')`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log("a facility_history has been created");
             res.send(results);
@@ -246,7 +246,7 @@ router.patch("/update/:no", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `UPDATE history SET year=${year}, month=${month}, description='${description}' WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a history${no} has been updated`);
             res.send(results);
@@ -256,7 +256,7 @@ router.patch("/update/:no", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape ';
 
         const sql = `UPDATE program SET title='${title}', description='${description}' WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a program${no} has been created`);
             res.send(results);
@@ -268,7 +268,7 @@ router.patch("/update/:no", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
         const sql = `UPDATE ${bbs} SET title='${title}', description='${description}' WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a posting: ${title} in ${bbs} has been updated in DB`);
             res.redirect(`/admin/${bbs}`);
@@ -279,7 +279,7 @@ router.patch("/update/:no", async (req, res) => {
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape ';
 
         const sql = `UPDATE facility_history SET year=${year}, month=${month}, description='${description}' WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a facility_history${no} has been updated`);
             res.send(results);
@@ -296,14 +296,14 @@ router.delete("/delete/:no", async (req, res) => {
 
     if (menu === "history") { /* 연혁 */
         const sql = `DELETE FROM history WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a history${no} has been deleted`);
             res.send(results);
         });
     } else if (menu === "program") {
         const sql = `DELETE FROM program WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a program${no} has been deleted`);
             res.send(results);
@@ -311,14 +311,14 @@ router.delete("/delete/:no", async (req, res) => {
     } else if (menu === "bbs") { /* 게시판 */
         const bbs = sanitizeHtml(req.query.bbs);
         const sql = `UPDATE ${bbs} SET is_deleted=1 WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a posting${no} in ${bbs} has been deleted`);
             res.redirect(`/admin/${bbs}`);
         });
     } else if (menu === "facility_history") {
         const sql = `DELETE FROM facility_history WHERE no=${no}`;
-        connection.query(sql, (error, results, fields) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a facility_history${no} has been deleted`);
             res.send(results);
@@ -335,7 +335,7 @@ router.patch("/sostt", async (req, res) => {
     const facility = sanitizeHtml(req.body.facility).replace(/'/g, "''"); // escape '
 
     const sql = `UPDATE sostt SET updated_at=NOW(), sosttIs='${sosttIs}', facility='${facility}'`;
-    connection.query(sql, (error, results, fields) => {
+    connection.query(sql, (error, results) => {
         if (error) throw error;
         console.log(`sostt description has been changed`);
         res.send(results);
