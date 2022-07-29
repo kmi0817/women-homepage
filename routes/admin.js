@@ -52,7 +52,7 @@ router.get("/counsel", async (req, res) => {
 
 // 공지사항 관리
 router.get("/board", async (req, res) => {
-    connection.query("SELECT * FROM board", (error, results) => {
+    connection.query("SELECT * FROM bbs WHERE bbs='board'", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -60,7 +60,7 @@ router.get("/board", async (req, res) => {
 
 // 시설 이미지 관리
 router.get("/images", async (req, res) => {
-    connection.query("SELECT * FROM images", (error, results) => {
+    connection.query("SELECT * FROM bbs WHERE bbs='images'", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -68,7 +68,7 @@ router.get("/images", async (req, res) => {
 
 // 자유 게시판 관리
 router.get("/community", async (req, res) => {
-    connection.query("SELECT * FROM community", (error, results) => {
+    connection.query("SELECT * FROM bbs WHERE bbs='community'", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -76,7 +76,7 @@ router.get("/community", async (req, res) => {
 
 // 포토 갤러리 관리
 router.get("/gallery", async (req, res) => {
-    connection.query("SELECT * FROM gallery", (error, results) => {
+    connection.query("SELECT * FROM bbs WHERE bbs='gallery'", (error, results) => {
         if (error) throw error;
         res.send(results);
     });
@@ -213,7 +213,7 @@ router.post("/create", async (req, res) => {
         const writer = sanitizeHtml(req.body.writer);
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
-        const sql = `INSERT INTO ${bbs}(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
+        const sql = `INSERT INTO bbs(bbs, title, writer, description) VALUES('${bbs}', '${title}', '${writer}', '${description}')`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a posting: ${title} in ${bbs} has been created`);
@@ -267,7 +267,7 @@ router.patch("/update/:no", async (req, res) => {
         const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape ';
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
 
-        const sql = `UPDATE ${bbs} SET title='${title}', description='${description}' WHERE no=${no}`;
+        const sql = `UPDATE bbs SET title='${title}', description='${description}' WHERE no=${no}`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a posting: ${title} in ${bbs} has been updated in DB`);
@@ -310,7 +310,7 @@ router.delete("/delete/:no", async (req, res) => {
         });
     } else if (menu === "bbs") { /* 게시판 */
         const bbs = sanitizeHtml(req.query.bbs);
-        const sql = `UPDATE ${bbs} SET is_deleted=1 WHERE no=${no}`;
+        const sql = `UPDATE bbs SET is_deleted=1 WHERE no=${no}`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
             console.log(`a posting${no} in ${bbs} has been deleted`);

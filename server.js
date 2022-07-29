@@ -25,10 +25,17 @@ const config = require("./config.js");
 const connection = mysql.createConnection(config);
 
 app.get("/", async (req, res) => {
-    const sql = `SELECT year, month, description FROM history`;
+    let sql = `SELECT title FROM bbs ORDER BY created_at desc LIMIT 5`;
     connection.query(sql, (error, results) => {
         if (error) throw error;
-        res.send(results);
+
+        sql = `SELECT year, month, description FROM history`;
+        connection.query(sql, (error2, results2) => {
+            if (error2) throw error2;
+
+            results.push(results2);
+            res.send(results);
+        });
     });
 });
 
