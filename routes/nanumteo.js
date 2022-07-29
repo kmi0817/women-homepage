@@ -32,9 +32,9 @@ router.get("/counsel", async (req, res) => {
 router.post("/process", async (req, res) => {
     if (req.query.nanum === "sponsorship") {
         const sql = `INSERT INTO sponsorship(name, job, email, addr1, addr2, addr3, tel, recommender, purpose, method,withdrawal_bank, account, depositor, withdrawal_date, amount, period) VALUES('${sanitizeHtml(req.body.name)}', '${sanitizeHtml(req.body.job)}', '${sanitizeHtml(req.body.email)}', ${sanitizeHtml(req.body.addr1)}, '${sanitizeHtml(req.body.addr2)}', '${sanitizeHtml(req.body.addr3)}', '${sanitizeHtml(req.body.tel)}', '${sanitizeHtml(req.body.recommender)}', '${sanitizeHtml(req.body.purpose).replace(/'/g, "''")}', '${sanitizeHtml(req.body.method)}', '${sanitizeHtml(req.body.withdrawal_bank)}', '${sanitizeHtml(req.body.account)}', '${sanitizeHtml(req.body.depositor)}', ${sanitizeHtml(req.body.withdrawal_date)}, ${sanitizeHtml(req.body.amount)}, '${sanitizeHtml(req.body.period)}')`;
-        connection.query(sql, (err, ret) => {
-            if (err) {
-                throw err;
+        connection.query(sql, (error, results) => {
+            if (error) {
+                throw error;
             } else {
                 console.log("** an application for sponsorship has been saved in DB");
                 res.redirect("/nanumteo/applyfor?nanum=sponsorship");
@@ -42,9 +42,9 @@ router.post("/process", async (req, res) => {
         });
     } else if (req.query.nanum === "volunteerwork") {
         const sql = `INSERT INTO volunteerwork(name, tel, hp, addr1, addr2, addr3, email, exprience, description, begin_date, end_date, speak) VALUES('${sanitizeHtml(req.body.name)}', '${sanitizeHtml(req.body.tel)}', '${sanitizeHtml(req.body.hp)}', ${sanitizeHtml(req.body.addr1)}, '${sanitizeHtml(req.body.addr2)}', '${sanitizeHtml(req.body.addr3)}', '${sanitizeHtml(req.body.email)}', ${sanitizeHtml(req.body.exprience)}, '${sanitizeHtml(req.body.description).replace(/'/g, "''")}', '${sanitizeHtml(req.body.begin_date)}', '${sanitizeHtml(req.body.end_date)}', '${sanitizeHtml(req.body.speak).replace(/'/g, "''")}')`;
-        connection.query(sql, (err, ret) => {
-            if (err) {
-                throw err;
+        connection.query(sql, (error, results) => {
+            if (error) {
+                throw error;
             } else {
                 console.log("** an application for volunteerwork has been saved in DB");
                 res.redirect("/nanumteo/applyfor?nanum=volunteerwork");
