@@ -29,6 +29,15 @@ router.get("/counsel", async (req, res) => {
     res.send("비밀상담");
 });
 
+router.get("/counsel/:no", async (req, res) => {
+    const no = sanitizeHtml(req.params.no);
+    const sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`; // Get a posting that is not deleted
+    connection.query(sql, (error, results) => {
+        if (error) throw error;
+        res.send(results);
+    });
+});
+
 router.post("/process", async (req, res) => {
     const nanum = sanitizeHtml(req.query.nanum);
 
