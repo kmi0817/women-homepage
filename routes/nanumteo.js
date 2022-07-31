@@ -38,7 +38,7 @@ router.get("/counsel/:no", async (req, res) => {
     });
 });
 
-router.post("/process", async (req, res) => {
+router.post("/create", async (req, res) => {
     const nanum = sanitizeHtml(req.query.nanum);
 
     if (nanum === "sponsorship") {
