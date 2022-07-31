@@ -78,6 +78,17 @@ router.post("/create", async (req, res) => {
             console.log(`a posting: ${title} in counsel has been created`);
             res.redirect(`/nanumteo/counsel`);
         });
+    } else if (nanum === "comments") {
+        const writer = sanitizeHtml(req.body.writer);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        const posting_no = sanitizeHtml(req.body.posting_no);
+
+        const sql = `INSERT INTO counsel_comments(writer, description, posting_no) VALUES('${writer}', '${description}', ${posting_no})`;
+        connection.query(sql, (error, results) => {
+            if (error) throw error;
+            console.log(`a comment(${writer}) in counsel${posting_no} has been created`);
+            res.redirect(`/nanumteo/counsel/${posting_no}`);
+        });
     } else {
         console.log("WRONG");
         res.redirect("/nanumteo");
