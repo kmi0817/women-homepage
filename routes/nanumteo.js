@@ -110,6 +110,17 @@ router.patch("/update/:no", async (req, res) => {
             console.log(`a counsel${no} has been updated`);
             res.redirect(`/nanumteo/counsel`);
         });
+    } else if (nanum === "comments") {
+        const writer = sanitizeHtml(req.body.writer);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        const posting_no = sanitizeHtml(req.body.posting_no);
+
+        const sql = `UPDATE counsel_comments SET writer='${writer}', description='${description}' WHERE no=${no}`;
+        connection.query(sql, (error, results) => {
+            if (error) throw error;
+            console.log(`a comment${no} in counsel${posting_no} has been updated`);
+            res.redirect(`/nanumteo/counsel/${posting_no}`);
+        });
     } else {
         console.log("WRONG");
         res.redirect("/nanumteo");
