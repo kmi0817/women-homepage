@@ -31,10 +31,16 @@ router.get("/counsel", async (req, res) => {
 
 router.get("/counsel/:no", async (req, res) => {
     const no = sanitizeHtml(req.params.no);
-    const sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`; // Get a posting that is not deleted
+    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`; // Get a posting that is not deleted
     connection.query(sql, (error, results) => {
         if (error) throw error;
-        res.send(results);
+
+        sql = `SELECT * FROM counsel_comments WHERE posting_no=${no} and is_deleted=0`; // Get comments that is not deleted
+        connection.query(sql, (error2, results2) => {
+            if (error2) throw error2;
+            results.push(results2);
+            res.send(results);
+        });
     });
 });
 
