@@ -78,4 +78,25 @@ router.post("/create", async (req, res) => {
     }
 });
 
+router.patch("/update/:no", async (req, res) => {
+    const no = sanitizeHtml(req.params.no);
+    const nanum = sanitizeHtml(req.query.nanum);
+
+    if (nanum === "counsel") {
+        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
+        const writer = sanitizeHtml(req.body.writer);
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+
+        const sql = `UPDATE counsel SET title='${title}', writer='${writer}', description='${description}' WHERE no=${no}`;
+        connection.query(sql, (error, results) => {
+            if (error) throw error;
+            console.log(`a counsel${no} has been updated`);
+            res.redirect(`/nanumteo/counsel`);
+        });
+    } else {
+        console.log("WRONG");
+        res.redirect("/nanumteo");
+    }
+});
+
 module.exports = router;
