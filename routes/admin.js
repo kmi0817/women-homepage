@@ -290,7 +290,14 @@ router.patch("/update/:no", async (req, res) => {
             if (error) throw error;
             console.log(`an apply for sponsorship${no} has been confirmed`);
             res.redirect("/admin/sponsorship");
-        })
+        });
+    } else if (menu === "volunteerwork") {
+        const sql = `UPDATE volunteerwork SET is_confirmed=1 WHERE no=${no}`
+        connection.query(sql, (error, results) => {
+            if (error) throw error;
+            console.log(`an apply for sponsorship${no} has been confirmed`);
+            res.redirect("/admin/volunteerwork");
+        });
     } else {
         console.log("WRONG");
         res.redirect(`/admin`);
