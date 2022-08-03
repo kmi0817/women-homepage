@@ -284,6 +284,13 @@ router.patch("/update/:no", async (req, res) => {
             console.log(`a facility_history${no} has been updated`);
             res.send(results);
         });
+    } else if (menu === "sponsorship") {
+        const sql = `UPDATE sponsorship SET is_confirmed=1 WHERE no=${no}`
+        connection.query(sql, (error, results) => {
+            if (error) throw error;
+            console.log(`an apply for sponsorship${no} has been confirmed`);
+            res.redirect("/admin/sponsorship");
+        })
     } else {
         console.log("WRONG");
         res.redirect(`/admin`);
