@@ -25,16 +25,23 @@ const config = require("./config.js");
 const connection = mysql.createConnection(config);
 
 app.get("/", async (req, res) => {
-    let sql = `SELECT no, title, created_at FROM bbs ORDER BY created_at desc LIMIT 8`;
+    /* results: 새글 소식, results2: 공지사항, results3: 연혁 */
+    let sql = `SELECT no, bbs, title, created_at FROM bbs ORDER BY created_at desc LIMIT 8`;
     connection.query(sql, (error, results) => {
         if (error) throw error;
 
-        sql = `SELECT year, month, description FROM history`;
+        sql = `SELECT no, title, created_at FROM bbs WHERE bbs='board' ORDER BY created_at desc LIMIT 8`;
         connection.query(sql, (error2, results2) => {
             if (error2) throw error2;
-
             results.push(results2);
-            res.send(results);
+
+            sql = `SELECT year, month, description FROM history`;
+            connection.query(sql, (error3, results3) => {
+                if (error3) throw error3;
+                results.push(results3);
+                
+                res.send(results);
+            });
         });
     });
 });
