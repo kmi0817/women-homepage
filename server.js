@@ -25,7 +25,7 @@ const config = require("./config.js");
 const connection = mysql.createConnection(config);
 
 app.get("/", async (req, res) => {
-    let sql = `SELECT title FROM bbs ORDER BY created_at desc LIMIT 5`;
+    let sql = `SELECT no, title, created_at FROM bbs ORDER BY created_at desc LIMIT 8`;
     connection.query(sql, (error, results) => {
         if (error) throw error;
 
