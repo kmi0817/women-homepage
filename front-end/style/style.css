@@ -1,0 +1,136 @@
+:root {
+  --bg-main-color: #424254;
+  --text-white-color: #f5f5f5;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  list-style: none;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--bg-main-color);
+  overflow: hidden;
+}
+
+.header a {
+  text-decoration: none;
+  color: var(--text-white-color);
+}
+
+.header .menuLogo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .menuList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header .menuList li {
+  padding: 8px 12px;
+}
+
+.header .menuList li:hover .drop-down {
+  display: block;
+}
+
+.header .menuList .menucell {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border: 10px solid var(--bg-main-color);
+}
+
+.header .menuList .menucell:active {
+  background-color: var(--text-white-color);
+  color: #424254;
+  border-radius: 5px;
+}
+
+.header .menuList .drop-down {
+  background-color: var(--bg-main-color);
+  border: 5px solid var(--bg-main-color);
+  border-radius: 0 0 5px 5px;
+  box-shadow: 0.6em 1em 1em rgb(0 0 0 / 10%);
+  overflow: hidden;
+  position: fixed;
+  padding: 0;
+  margin-top: 2rem;
+  display: none;
+}
+
+.header .menuList .drop-down li {
+  border: 5px solid var(--bg-main-color);
+}
+
+.header .menuList .drop-down li:hover {
+  background-color: var(--text-white-color);
+}
+
+.header .menuList .drop-down li:hover a {
+  color: var(--bg-main-color);
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    padding-top: 14rem;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 24px;
+    height: fit-content;
+  }
+  .header .menuLogo {
+    padding-left: 0px;
+  }
+  .header .menuList {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding-top: 10px;
+  }
+
+  .top {
+    margin-top: 0;
+  }
+
+  .header .menuList .drop-down {
+    width: 100%;
+    left: 0;
+    border: 5px solid var(--text-white-color);
+  }
+
+  .header .menuList .drop-down li {
+    background-color: var(--text-white-color);
+    border: 3px solid var(--text-white-color);
+  }
+
+  .header .menuList .drop-down a {
+    color: var(--bg-main-color);
+  }
+
+  .header .menuList .drop-down li:hover {
+    background-color: var(--bg-main-color);
+  }
+
+  .header .menuList .drop-down li:hover a {
+    color: var(--text-white-color);
+  }
+}
