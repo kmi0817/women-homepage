@@ -1,18 +1,17 @@
 import { BaseComponent } from '../BaseComponent.js';
-
 export class MainPage extends BaseComponent<HTMLElement> {
-    constructor(private router: any) {
+    constructor() {
         super(`<section><h1>Main Page~</h1>
-            <button type="button" class="otherBtn">Go Other</button>
+            <button type="button" class="moveBtn">Go Other</button>
             </section>
         `);
-        console.log("main page")
     }
 
     mount() {
-        const button = document.querySelector(`.otherBtn`);
+        const button = document.querySelector(`.moveBtn`);
         button?.addEventListener('click', () => {
-            this.router.push('other');
+            console.log('click!')
+            history.pushState({ data: 'other' }, 'data!!', '/other');
         });
     }
 }

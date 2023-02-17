@@ -11,6 +11,10 @@ body {
   list-style: none;
 }
 
+main {
+  margin-top: 5rem;
+}
+
 header {
   position: fixed;
   top: 0;
@@ -119,7 +123,7 @@ header {
 
   .header .menuList .drop-down li {
     background-color: var(--text-white-color);
-    border: 3px solid var(--text-white-color);
+    border: 5px solid var(--text-white-color);
   }
 
   .header .menuList .drop-down a {
