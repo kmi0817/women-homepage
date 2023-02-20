@@ -1,16 +1,21 @@
-import { BaseComponent } from '../BaseComponent.js';
-export class MainPage extends BaseComponent {
-    constructor() {
-        super(`<section><h1>Main Page~</h1>
-            <button type="button" class="moveBtn">Go Other</button>
-            </section>
-        `);
+import { ImageSlide } from './MainComponent/ImageSlide.js';
+import { MenuButton } from './MainComponent/MenuButton.js';
+export class MainPage {
+    constructor($target) {
+        this.$target = $target;
     }
-    mount() {
-        const button = document.querySelector(`.moveBtn`);
-        button === null || button === void 0 ? void 0 : button.addEventListener('click', () => {
-            console.log('click!');
-            history.pushState({ data: 'other' }, 'data!!', '/other');
+    render() {
+        const h1 = document.createElement('h1');
+        h1.innerText = `Main Page ~`;
+        const button = document.createElement('button');
+        button.setAttribute('class', 'moveBtn');
+        button.innerText = `Go Other`;
+        button.addEventListener('click', () => {
+            history.pushState('', '', '/other');
         });
+        this.$target.appendChild(h1);
+        this.$target.appendChild(button);
+        const imageSlide = new ImageSlide(this.$target);
+        const menuButton = new MenuButton(this.$target);
     }
 }
