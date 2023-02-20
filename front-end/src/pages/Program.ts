@@ -1,19 +1,21 @@
 import { BaseComponent } from '../BaseComponent.js';
 
-export class ProgramPage extends BaseComponent<HTMLElement> {
-    constructor(private router: any) {
-        super(`<section><h1>Program Page~</h1>
-        <button type="button" class="mainBtn">Go Main</button>
-        </section>
-        `);
+export class ProgramPage {
+    constructor(private $target: HTMLElement) {
         console.log("program page")
     }
 
-    mount() {
-        const button = document.querySelector(`.mainBtn`);
-        button?.addEventListener('click', () => {
-            console.log('click!')
-            history.pushState({ data: 'main' }, 'data!!', '/main');
+    render() {
+        const h1 = document.createElement('h1');
+        h1.innerText = `Program Page~`;
+        const button = document.createElement('button');
+        button.setAttribute('class', 'moveBtn');
+        button.innerText = `Go Main`;
+        button.addEventListener('click', () => {
+            history.pushState({ data: 'main' }, 'data!!', '/');
         });
+
+        this.$target.appendChild(h1);
+        this.$target.appendChild(button);
     }
 }
