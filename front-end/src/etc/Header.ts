@@ -3,10 +3,10 @@ import { BaseComponent } from '../BaseComponent.js';
 export class Header extends BaseComponent<HTMLElement> {
     constructor() {
         super(`<header class="header"><div class="menuLogo">
-        <a href="/" data-link>한국여성의집</a>
+        <a href="/" data-link class="go_home">한국여성의집</a>
         </div>
         <div class="menuList">
-        <li class="menucell"><a href="/program" data-link>프로그램 안내</a></li>
+        <li class="menucell"><a class="go_program" href="/program" data-link>프로그램 안내</a></li>
         <li class="menucell"><a href="/" data-link>사랑의 나눔터</a>
             <ul class="drop-down">
                 <li><a href="#">후원안내</a></li>
@@ -26,5 +26,16 @@ export class Header extends BaseComponent<HTMLElement> {
         <li class="menucell"><a href="/" data-link>소소뜨라</a></li>
     </div>
     </header>`);
+    }
+
+    addLink() {
+        const homeButton = document.querySelector('.go_home') as HTMLAnchorElement;
+        homeButton.addEventListener('click', () => {
+            history.pushState('', '', '/');
+        })
+        const programButton = document.querySelector('.go_program') as HTMLAnchorElement;
+        programButton.addEventListener('click', () => {
+            history.pushState('', '', '/program');
+        });
     }
 }

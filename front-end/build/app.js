@@ -4,6 +4,7 @@ class App {
     constructor(appRoot) {
         const header = new Header();
         header.attachTo(appRoot);
+        header.addLink();
         const router = new Router(appRoot.querySelector(`.main`));
     }
 }

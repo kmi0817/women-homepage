@@ -6,7 +6,7 @@ export class Router {
         this.appRoot = appRoot;
         this.pages = [
             { page: MainPage, path: '' },
-            { page: ProgramPage, path: 'other' },
+            { page: ProgramPage, path: 'program' },
         ];
         this.nowPage = ``;
         window.addEventListener('click', (e) => {
