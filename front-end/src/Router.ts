@@ -10,7 +10,7 @@ type pagesType = {
 export class Router {
     private pages = [
         { page: MainPage, path: '' },
-        { page: ProgramPage, path: 'other' },
+        { page: ProgramPage, path: 'program' },
     ];
     private nowPage: string = ``;
 

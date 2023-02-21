@@ -26,6 +26,8 @@ header {
   justify-content: space-around;
   background-color: var(--bg-main-color);
   overflow: hidden;
+
+  z-index: 100;
 }
 
 .header a {
@@ -221,10 +223,21 @@ header {
   color: #7fb5ff;
 }
 
+@keyframes fadeInRight {
+  0% {
+    opacity: 0.5;
+    transform: translate3d(40%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
 @keyframes fadeInLeft {
   0% {
-    opacity: 0;
-    transform: translate3d(100%, 0, 0);
+    opacity: 0.5;
+    transform: translate3d(-40%, 0, 0);
   }
   to {
     opacity: 1;
@@ -236,20 +249,47 @@ header {
 .quick_section {
   position: absolute;
   right: 5rem;
-  width: 700px;
+  width: 705px;
   height: 300px;
   background-color: #7fb5ff;
 }
 
 .quick_title {
   position: absolute;
+  left: 0;
   width: 200px;
   height: 300px;
   background-color: #f5f5f5;
 }
 
+.quick_title_text {
+  font-size: 32px;
+  font-weight: 300;
+  color: #424254;
+  margin: 1rem 0 0 1rem;
+}
+.quick_title_text.menu {
+  color: #77a938;
+}
+
 .quick_menus {
-  background-color: #424254;
+  position: absolute;
+  right: 0;
+  width: 500px;
+  height: 300px;
+  background-color: var(--text-white-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.div1,
+.div2,
+.div3 {
+  display: flex;
+  width: 100%;
+  height: 33.3%;
+  justify-content: space-between;
 }
 
 .div1 {
@@ -266,14 +306,56 @@ header {
 
 .div1Div1,
 .div1Div2 {
+  background-color: #7fb5ff;
+  width: 50%;
+  height: 100%;
+  border: 1px solid var(--text-white-color);
+  box-sizing: border-box;
 }
 
 .div2Div1,
 .div2Div2,
 .div2Div3 {
+  background-color: #7fb5ff;
+  width: 50%;
+  height: 100%;
+  border: 1px solid var(--text-white-color);
+  box-sizing: border-box;
 }
 
 .div3Div1,
 .div3Div2,
 .div3Div3 {
+  background-color: #7fb5ff;
+  width: 50%;
+  height: 100%;
+  border: 1px solid var(--text-white-color);
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1000px) {
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .slider_wrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    left: auto;
+  }
+  .slide_item {
+    width: 90vw;
+  }
+
+  .quick_section {
+    margin-top: 50px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 90vw;
+    right: auto;
+  }
 }

@@ -48,6 +48,7 @@ export class ImageSlide {
         const paginationItems = document.querySelectorAll('.slide_pagination > li');
         prev.addEventListener('click', (e) => {
             e.stopImmediatePropagation();
+            slideItems.forEach((item) => item.setAttribute('style', 'animation: fadeInLeft 1s'));
             if (this.currentSlide > startSlide) {
                 this.currentSlide--;
             }
@@ -58,6 +59,7 @@ export class ImageSlide {
         });
         next.addEventListener('click', (e) => {
             e.stopImmediatePropagation();
+            slideItems.forEach((item) => item.setAttribute('style', 'animation: fadeInRight 1s'));
             if (this.currentSlide < endSlide) {
                 this.currentSlide++;
             }
