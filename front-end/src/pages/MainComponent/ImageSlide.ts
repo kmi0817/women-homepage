@@ -15,7 +15,7 @@ export class ImageSlide {
             } else {
                 img.setAttribute('class', `slide_item item${i}`);
             }
-            img.setAttribute('src', `https://www.picsum.photos/500/300`);
+            img.setAttribute('src', `https://www.picsum.photos/600/300`);
             img.setAttribute('alt', `한국여성의집 이미지 ${i}`);
             element.appendChild(img);
         }
