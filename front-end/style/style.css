@@ -16,6 +16,7 @@ body {
 main {
   margin-top: 5rem;
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
 }
 
@@ -510,4 +511,61 @@ header {
   .mainDonation_desc {
     width: 80%;
   }
+}
+
+@media screen and (max-width: 1000px) {
+  .main_section_first {
+    flex-direction: column;
+  }
+  .main_section_second {
+    flex-direction: column;
+  }
+}
+
+/* Mission and Vision style */
+.mission_section {
+  display: flex;
+  flex-direction: column;
+  margin-top: 150px;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.mission_title {
+  font-size: 24px;
+  color: var(--text-gray-color);
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.mission_desc {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  justify-content: center;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 62%,
+    rgba(243, 253, 231, 1) 100%
+  );
+}
+
+.mission_desc1,
+.mission_desc2 {
+  display: flex;
+  margin: 1rem 0 1rem 7rem;
+  width: 100%;
+}
+
+.mission_span1 {
+  color: var(--text-green-color);
+  width: 10%;
+}
+
+.mission_span2 {
+  color: var(--text-gray-color);
+  width: 90%;
 }

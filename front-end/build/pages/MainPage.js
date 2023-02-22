@@ -1,6 +1,7 @@
 import { ImageSlide } from './MainComponent/ImageSlide.js';
 import { MainDonation } from './MainComponent/MainDonation.js';
 import { MenuButton } from './MainComponent/MenuButton.js';
+import { MissionVision } from './MainComponent/MissionVision.js';
 import { NewNotice } from './MainComponent/NewNotice.js';
 import { NewPost } from './MainComponent/NewPost.js';
 export class MainPage {
@@ -24,9 +25,10 @@ export class MainPage {
         const newNotice = new NewNotice(main_section_second);
         const mainDonation = new MainDonation(main_section_second);
         // mission_section
-        // const mission_section = document.createElement('section');
-        // mission_section.setAttribute('class', 'mission_section');
-        // this.$target.appendChild(mission_section);
+        const mission_section = document.createElement('section');
+        mission_section.setAttribute('class', 'mission_section');
+        this.$target.appendChild(mission_section);
+        const missionVision = new MissionVision(mission_section);
         // value_section
         // info_section
         // support_section
