@@ -5,6 +5,9 @@ import { MissionVision } from './MainComponent/MissionVision.js';
 import { NewNotice } from './MainComponent/NewNotice.js';
 import { NewPost } from './MainComponent/NewPost.js';
 import { Value } from './MainComponent/Value.js';
+import { MainInfo } from './MainComponent/MainInfo.js';
+import { MainHistory } from './MainComponent/MainHistory.js';
+import { MainSupport } from './MainComponent/MainSupport.js';
 import { makeElement } from '../api/api.js';
 export class MainPage {
     constructor($target) {
@@ -32,7 +35,16 @@ export class MainPage {
         this.$target.appendChild(value_section);
         const value = new Value(value_section);
         // info_section
+        const info_section = makeElement('section', 'class', 'info_section');
+        this.$target.appendChild(info_section);
+        const info = new MainInfo(info_section);
         // support_section
+        const support_section = makeElement('section', 'class', 'support_section');
+        this.$target.appendChild(support_section);
+        const support = new MainSupport(support_section);
         // history_section
+        const history_section = makeElement('section', 'class', 'history_section');
+        this.$target.appendChild(history_section);
+        const hisotry = new MainHistory(history_section);
     }
 }
