@@ -4,7 +4,6 @@ export class MainDonation {
         this.render();
     }
     render() {
-        console.log('main donation!');
         const section = document.createElement('section');
         section.setAttribute('class', 'mainDonation_section');
         const title = document.createElement('p');
