@@ -15,7 +15,7 @@ export class Router {
     private nowPage: string = ``;
 
     constructor(private appRoot: HTMLElement) {
-        window.addEventListener('click', (e) => {
+        window.addEventListener('hrefchange', (e) => {
             e.preventDefault();
             this.test();
         });

@@ -30,10 +30,14 @@ export class Header extends BaseComponent {
         const homeButton = document.querySelector('.go_home');
         homeButton.addEventListener('click', () => {
             history.pushState('', '', '/');
+            const newEvent = new CustomEvent("hrefchange");
+            window.dispatchEvent(newEvent);
         });
         const programButton = document.querySelector('.go_program');
         programButton.addEventListener('click', () => {
             history.pushState('', '', '/program');
+            const newEvent = new CustomEvent("hrefchange");
+            window.dispatchEvent(newEvent);
         });
     }
 }

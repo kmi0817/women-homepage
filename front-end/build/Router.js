@@ -9,7 +9,7 @@ export class Router {
             { page: ProgramPage, path: 'program' },
         ];
         this.nowPage = ``;
-        window.addEventListener('click', (e) => {
+        window.addEventListener('hrefchange', (e) => {
             e.preventDefault();
             this.test();
         });

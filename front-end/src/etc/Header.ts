@@ -32,10 +32,14 @@ export class Header extends BaseComponent<HTMLElement> {
         const homeButton = document.querySelector('.go_home') as HTMLAnchorElement;
         homeButton.addEventListener('click', () => {
             history.pushState('', '', '/');
+            const newEvent = new CustomEvent("hrefchange");
+            window.dispatchEvent(newEvent);
         })
         const programButton = document.querySelector('.go_program') as HTMLAnchorElement;
         programButton.addEventListener('click', () => {
             history.pushState('', '', '/program');
+            const newEvent = new CustomEvent("hrefchange");
+            window.dispatchEvent(newEvent);
         });
     }
 }
