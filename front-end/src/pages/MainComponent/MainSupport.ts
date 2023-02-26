@@ -1,7 +1,7 @@
 import { makeElement } from '../../api/api.js';
 import { Modal } from './modal/Modal.js';
 
-type supportDataType = {
+export type supportDataType = {
     title: string,
     info: string,
     list: Array<string>,
@@ -82,7 +82,7 @@ export class MainSupport {
         titleClick.innerText = `click!`;
 
         ele.addEventListener('click', () => {
-            const cardModal = new Modal(ele);
+            const cardModal = new Modal(ele, modalData);
         });
         ele.appendChild(titleDiv);
         ele.appendChild(titleClick);
