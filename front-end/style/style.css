@@ -1,6 +1,6 @@
 :root {
   --bg-main-color: #424254;
-  --text-gray-color: #585858;
+  --text-gray-color: #898989;
   --text-white-color: #f5f5f5;
   --text-green-color: #77a938;
 }
@@ -117,11 +117,16 @@ header {
     align-items: flex-start;
     padding: 8px 24px;
     height: fit-content;
+    border: 2vw solid var(--bg-main-color);
+  }
+  .header:hover .menuList {
+    display: block;
   }
   .header .menuLogo {
     padding-left: 0px;
   }
   .header .menuList {
+    display: none;
     flex-direction: column;
     align-items: center;
     width: 100%;
@@ -727,4 +732,104 @@ header {
   width: fit-content;
   color: #898989;
   margin-top: 50px;
+}
+
+/* modal style */
+.modal_background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.modal_div {
+  width: 50vw;
+  height: 50vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.modal_header {
+  width: 100%;
+  height: 30%;
+  background-color: #f7f7fb;
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.button_div {
+  display: flex;
+  justify-content: end;
+  margin: 20px 10px 10px 10px;
+  height: 30%;
+}
+
+.button_div button {
+  border: none;
+  background-color: inherit;
+  width: 5vw;
+  color: var(--bg-main-color);
+}
+
+.modal_header_text {
+  height: 70%;
+  margin: 1vw 1vw 1vw 5vw;
+  display: flex;
+  align-items: end;
+}
+
+.modal_header_text span {
+  margin: 1vw;
+}
+.modal_header_text span:first-child {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.modal_header_text span:last-child {
+  color: var(--text-gray-color);
+}
+
+.modal_body {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.modal_body_ul {
+  list-style: none;
+  width: 80%;
+  border-left: 3px solid var(--bg-main-color);
+}
+
+.modal_body_li {
+  margin: 10px;
+  color: var(--text-gray-color);
+  font-size: 0.9rem;
+}
+
+.modal_body_bottom {
+  text-align: center;
+  color: var(--bg-main-color);
+}
+
+@media screen and (max-width: 1000px) {
+  .modal_div {
+    width: 80vw;
+  }
+  .button_div button {
+    width: 15vw;
+  }
 }

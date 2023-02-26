@@ -69,7 +69,7 @@ export class MainSupport {
         titleDiv.innerText = modalData.title;
         titleClick.innerText = `click!`;
         ele.addEventListener('click', () => {
-            const cardModal = new Modal(ele);
+            const cardModal = new Modal(ele, modalData);
         });
         ele.appendChild(titleDiv);
         ele.appendChild(titleClick);
