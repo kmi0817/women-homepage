@@ -92,13 +92,14 @@ router.post("/create", async (req, res) => {
         });
     } else if (nanum === "comments") {
         const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        const salt = crypto.randomBytes(64).toString("base64");
+        const description = crypto.pbkdf2Sync(sanitizeHtml(req.body.description).replace(/'/g, "''"), salt, 198922, 64, "sha512").toString("base64");
         const posting_no = sanitizeHtml(req.body.posting_no);
 
-        const sql = `INSERT INTO counsel_comments(writer, description, posting_no) VALUES('${writer}', '${description}', ${posting_no})`;
+        const sql = `INSERT INTO counsel_comments(writer, description, salt, posting_no) VALUES('${writer}', '${description}', '${salt}', ${posting_no})`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
-            console.log(`a comment(${writer}) in counsel${posting_no} has been created`);
+            console.log(`** a counsel comment(${writer}) of ${posting_no} has been saved in DB`);
             res.redirect(`/nanumteo/counsel/${posting_no}`);
         });
     } else {
