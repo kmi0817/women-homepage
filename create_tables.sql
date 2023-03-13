@@ -67,3 +67,16 @@ create table counsel(
     salt TEXT NOT NULL,
     PRIMARY KEY(no)
 );
+
+/* 비밀상담 댓글 */
+CREATE TABLE counsel_comments(
+	no INT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	is_deleted BOOLEAN NOT NULL DEFAULT 0, /* 삭제여부, FALSE-0, TRUE-1 */
+    writer VARCHAR(10) NOT NULL, /* 작성자 */
+    description TEXT NOT NULL, /* 내용 */
+    salt TEXT NOT NULL, /* 솔트: description 암호화용 */
+    posting_no INT NOT NULL, /* 게시글 no */
+    PRIMARY KEY(no),
+    FOREIGN KEY(posting_no) REFERENCES counsel(no) ON UPDATE CASCADE 
+);
