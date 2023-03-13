@@ -29,7 +29,14 @@ router.get("/applyfor", async (req, res) => {
 });
 
 router.get("/counsel", async (req, res) => {
-    res.send("비밀상담");
+    let pageNo = Number(sanitizeHtml(req.query.pageNo)) || 1;
+    const startNo = (pageNo-1) * 10;
+
+    const sql = `SELECT * FROM counsel WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ${startNo}, 10`; // startNo번째부터 10개의 레코드를 가져온다
+    connection.query(sql, (error, results) => {
+        if (error) throw error;
+        res.send(results);
+    })
 });
 
 router.get("/counsel/:no", async (req, res) => {
@@ -37,12 +44,12 @@ router.get("/counsel/:no", async (req, res) => {
     let results = [];
 
     const no = sanitizeHtml(req.params.no);
-    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0 ORDER BY created_at desc LIMIT 10`; // Get a posting that is not deleted
+    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`;
     connection.query(sql, (error, posting) => {
         if (error) throw error;
         results.push(posting);
 
-        sql = `SELECT * FROM counsel_comments WHERE posting_no=${no} and is_deleted=0`; // Get comments that is not deleted
+        sql = `SELECT * FROM counsel_comments WHERE posting_no=${no} and is_deleted=0`;
         connection.query(sql, (error2, comments) => {
             if (error2) throw error2;
             results.push(comments);
