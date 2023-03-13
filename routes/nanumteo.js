@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const sanitizeHtml = require("sanitize-html");
+const crypto = require("crypto");
+const xlsx = require("xlsx");
+const path = require("path");
 
 // database
 const mysql = require("mysql");
@@ -31,7 +34,7 @@ router.get("/counsel", async (req, res) => {
 
 router.get("/counsel/:no", async (req, res) => {
     const no = sanitizeHtml(req.params.no);
-    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`; // Get a posting that is not deleted
+    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0 ORDER BY created_at desc LIMIT 10`; // Get a posting that is not deleted
     connection.query(sql, (error, results) => {
         if (error) throw error;
 
@@ -76,12 +79,15 @@ router.post("/create", async (req, res) => {
     } else if (nanum === "counsel") {
         const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
         const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        const salt = crypto.randomBytes(64).toString("base64");
+        const description = crypto.pbkdf2Sync(sanitizeHtml(req.body.description).replace(/'/g, "''"), salt, 198922, 64, "sha512").toString("base64");
+        const password = crypto.pbkdf2Sync(sanitizeHtml(req.body.password), salt, 198922, 64, "sha512").toString("base64");
 
-        const sql = `INSERT INTO counsel(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
+        const sql = `INSERT INTO counsel(title, writer, description, password, salt) VALUES('${title}', '${writer}', '${description}', '${password}', '${salt}')`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
-            console.log(`a posting: ${title} in counsel has been created`);
+
+            console.log(`** a counsel posting: ${title} has been saved in DB`);
             res.redirect(`/nanumteo/counsel`);
         });
     } else if (nanum === "comments") {
