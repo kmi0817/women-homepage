@@ -74,8 +74,7 @@ CREATE TABLE counsel_comments(
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	is_deleted BOOLEAN NOT NULL DEFAULT 0, /* 삭제여부, FALSE-0, TRUE-1 */
     writer VARCHAR(10) NOT NULL, /* 작성자 */
-    description TEXT NOT NULL, /* 내용 */
-    salt TEXT NOT NULL, /* 솔트: description 암호화용 */
+    description VARCHAR(200) NOT NULL, /* 내용 */
     posting_no INT NOT NULL, /* 게시글 no */
     PRIMARY KEY(no),
     FOREIGN KEY(posting_no) REFERENCES counsel(no) ON UPDATE CASCADE 
