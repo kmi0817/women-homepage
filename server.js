@@ -35,20 +35,23 @@ app.get("/*", (req, res) => {
 
 
 app.get("/", async (req, res) => {
-    /* results: 새글 소식, results2: 공지사항, results3: 연혁 */
+    /* bbs_new: 새글 소식, board_new: 공지사항, history: 연혁 */
+    let results = [];
+
     let sql = `SELECT no, bbs, title, created_at FROM bbs ORDER BY created_at desc LIMIT 8`;
-    connection.query(sql, (error, results) => {
+    connection.query(sql, (error, bbs_new) => {
         if (error) throw error;
+        results.push(bbs_new);
 
         sql = `SELECT no, title, created_at FROM bbs WHERE bbs='board' ORDER BY created_at desc LIMIT 8`;
-        connection.query(sql, (error2, results2) => {
+        connection.query(sql, (error2, board_new) => {
             if (error2) throw error2;
-            results.push(results2);
+            results.push(board_new);
 
-            sql = `SELECT year, month, description FROM history`;
-            connection.query(sql, (error3, results3) => {
+            sql = `SELECT year, description FROM history`;
+            connection.query(sql, (error3, history) => {
                 if (error3) throw error3;
-                results.push(results3);
+                results.push(history);
                 
                 res.send(results);
             });
