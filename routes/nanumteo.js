@@ -117,30 +117,41 @@ router.patch("/update/:no", async (req, res) => {
     const nanum = sanitizeHtml(req.query.nanum);
 
     if (nanum === "counsel") {
-        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
-        const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        /* 비밀번호 일치 여부 확인 */
+        connection.query(`SELECT password, salt FROM counsel WHERE no=${no}`, (error, results) => {
+            const password = sanitizeHtml(req.body.password);
+            const input_password = crypto.pbkdf2Sync(password, results[0]["salt"], 198922, 64, "sha512").toString("base64");
 
-        const sql = `UPDATE counsel SET title='${title}', writer='${writer}', description='${description}' WHERE no=${no}`;
-        connection.query(sql, (error, results) => {
-            if (error) throw error;
-            console.log(`a counsel${no} has been updated`);
-            res.redirect(`/nanumteo/counsel`);
+            if (input_password === results[0]["password"]) {
+                const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
+                const writer = sanitizeHtml(req.body.writer);
+                const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        
+                const sql = `UPDATE counsel SET title='${title}', writer='${writer}', description='${description}' WHERE no=${no}`;
+                connection.query(sql, (error, results) => {
+                    if (error) throw error;
+                    console.log(`** a counsel posting${no} has been updated`);
+                });
+            } else {
+                console.log("** Passwords do not match");
+            }
+
+            res.redirect(`/nanumteo/counsel/${no}`);
         });
     } else if (nanum === "comments") {
+        const comment_no = sanitizeHtml(req.body.comment_no);
         const writer = sanitizeHtml(req.body.writer);
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
-        const posting_no = sanitizeHtml(req.body.posting_no);
 
-        const sql = `UPDATE counsel_comments SET writer='${writer}', description='${description}' WHERE no=${no}`;
+        const sql = `UPDATE counsel_comments SET writer='${writer}', description='${description}' WHERE no=${comment_no}`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
-            console.log(`a comment${no} in counsel${posting_no} has been updated`);
-            res.redirect(`/nanumteo/counsel/${posting_no}`);
+            console.log(`** a comment${comment_no} of counsel${no} has been updated`);
+            res.redirect(`/nanumteo/counsel/${no}`);
         });
     } else {
         console.log("WRONG");
-        res.redirect("/nanumteo");
+        res.redirect("/nanumteo/counsel");
     }
 });
 
