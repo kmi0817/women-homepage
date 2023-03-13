@@ -33,15 +33,20 @@ router.get("/counsel", async (req, res) => {
 });
 
 router.get("/counsel/:no", async (req, res) => {
+    /* posting: 비밀상담 게시글, comments: 해당 게시글의 댓글 */
+    let results = [];
+
     const no = sanitizeHtml(req.params.no);
     let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0 ORDER BY created_at desc LIMIT 10`; // Get a posting that is not deleted
-    connection.query(sql, (error, results) => {
+    connection.query(sql, (error, posting) => {
         if (error) throw error;
+        results.push(posting);
 
         sql = `SELECT * FROM counsel_comments WHERE posting_no=${no} and is_deleted=0`; // Get comments that is not deleted
-        connection.query(sql, (error2, results2) => {
+        connection.query(sql, (error2, comments) => {
             if (error2) throw error2;
-            results.push(results2);
+            results.push(comments);
+            
             res.send(results);
         });
     });
