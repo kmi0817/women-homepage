@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 
 // 회원 관리
 router.get("/users", async (req, res) => {
-    const sql = `SELECT no, name, id, created_at FROM users`;
+    const sql = `SELECT no, name, id, level, DATE_FORMAT(created_at, "%Y-%m-%d %r") AS created_at FROM users`;
     connection.query(sql, (error, results) => {
         if (error) throw error;
         res.send(results);
@@ -164,6 +164,7 @@ router.get("/export", async (req, res) => {
                 data.push([
                     row["no"],
                     row["name"],
+                    row["level"],
                     row["id"],
                     row["password"],
                     row["salt"],
