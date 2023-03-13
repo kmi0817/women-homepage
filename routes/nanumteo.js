@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const sanitizeHtml = require("sanitize-html");
+const crypto = require("crypto");
+const xlsx = require("xlsx");
+const path = require("path");
 
 // database
 const mysql = require("mysql");
@@ -12,33 +15,45 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/howto", async (req, res) => {
-    if (req.query.nanum === "sponsorship") {
+    if (req.query.nanum === "sponsorship")
         res.send("후원 안내");
-    } else if (req.query.nanum === "volunteerwork")
-    res.send("자원봉사 안내");
+    else if (req.query.nanum === "volunteerwork")
+        res.send("자원봉사 안내");
 });
 
 router.get("/applyfor", async (req, res) => {
-    if (req.query.nanum === "sponsorship") {
+    if (req.query.nanum === "sponsorship")
         res.send("후원 신청");
-    } else if (req.query.nanum === "volunteerwork")
-    res.send("자원봉사 신청");
+    else if (req.query.nanum === "volunteerwork")
+        res.send("자원봉사 신청");
 });
 
 router.get("/counsel", async (req, res) => {
-    res.send("비밀상담");
+    let pageNo = Number(sanitizeHtml(req.query.pageNo)) || 1;
+    const startNo = (pageNo-1) * 10;
+
+    const sql = `SELECT * FROM counsel WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ${startNo}, 10`; // startNo번째부터 10개의 레코드를 가져온다
+    connection.query(sql, (error, results) => {
+        if (error) throw error;
+        res.send(results);
+    })
 });
 
 router.get("/counsel/:no", async (req, res) => {
-    const no = sanitizeHtml(req.params.no);
-    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`; // Get a posting that is not deleted
-    connection.query(sql, (error, results) => {
-        if (error) throw error;
+    /* posting: 비밀상담 게시글, comments: 해당 게시글의 댓글 */
+    let results = [];
 
-        sql = `SELECT * FROM counsel_comments WHERE posting_no=${no} and is_deleted=0`; // Get comments that is not deleted
-        connection.query(sql, (error2, results2) => {
+    const no = sanitizeHtml(req.params.no);
+    let sql = `SELECT * FROM counsel WHERE no=${no} and is_deleted=0`;
+    connection.query(sql, (error, posting) => {
+        if (error) throw error;
+        results.push(posting);
+
+        sql = `SELECT * FROM counsel_comments WHERE posting_no=${no} and is_deleted=0`;
+        connection.query(sql, (error2, comments) => {
             if (error2) throw error2;
-            results.push(results2);
+            results.push(comments);
+            
             res.send(results);
         });
     });
@@ -76,23 +91,26 @@ router.post("/create", async (req, res) => {
     } else if (nanum === "counsel") {
         const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
         const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''");
+        const salt = crypto.randomBytes(64).toString("base64");
+        const password = crypto.pbkdf2Sync(sanitizeHtml(req.body.password), salt, 198922, 64, "sha512").toString("base64");
 
-        const sql = `INSERT INTO counsel(title, writer, description) VALUES('${title}', '${writer}', '${description}')`;
+        const sql = `INSERT INTO counsel(title, writer, description, password, salt) VALUES('${title}', '${writer}', '${description}', '${password}', '${salt}')`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
-            console.log(`a posting: ${title} in counsel has been created`);
+
+            console.log(`** a counsel posting: ${title} has been saved in DB`);
             res.redirect(`/nanumteo/counsel`);
         });
     } else if (nanum === "comments") {
         const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        const description = sanitizeHtml(req.body.description).replace(/'/g, "''");
         const posting_no = sanitizeHtml(req.body.posting_no);
 
         const sql = `INSERT INTO counsel_comments(writer, description, posting_no) VALUES('${writer}', '${description}', ${posting_no})`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
-            console.log(`a comment(${writer}) in counsel${posting_no} has been created`);
+            console.log(`** a counsel comment(${writer}) of ${posting_no} has been saved in DB`);
             res.redirect(`/nanumteo/counsel/${posting_no}`);
         });
     } else {
@@ -106,30 +124,41 @@ router.patch("/update/:no", async (req, res) => {
     const nanum = sanitizeHtml(req.query.nanum);
 
     if (nanum === "counsel") {
-        const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
-        const writer = sanitizeHtml(req.body.writer);
-        const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        /* 비밀번호 일치 여부 확인 */
+        connection.query(`SELECT password, salt FROM counsel WHERE no=${no}`, (error, results) => {
+            const password = sanitizeHtml(req.body.password);
+            const input_password = crypto.pbkdf2Sync(password, results[0]["salt"], 198922, 64, "sha512").toString("base64");
 
-        const sql = `UPDATE counsel SET title='${title}', writer='${writer}', description='${description}' WHERE no=${no}`;
-        connection.query(sql, (error, results) => {
-            if (error) throw error;
-            console.log(`a counsel${no} has been updated`);
-            res.redirect(`/nanumteo/counsel`);
+            if (input_password === results[0]["password"]) {
+                const title = sanitizeHtml(req.body.title).replace(/'/g, "''"); // escape '
+                const writer = sanitizeHtml(req.body.writer);
+                const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
+        
+                const sql = `UPDATE counsel SET title='${title}', writer='${writer}', description='${description}' WHERE no=${no}`;
+                connection.query(sql, (error, results) => {
+                    if (error) throw error;
+                    console.log(`** a counsel posting${no} has been updated`);
+                });
+            } else {
+                console.log("** Passwords do not match");
+            }
+
+            res.redirect(`/nanumteo/counsel/${no}`);
         });
     } else if (nanum === "comments") {
+        const comment_no = sanitizeHtml(req.body.comment_no);
         const writer = sanitizeHtml(req.body.writer);
         const description = sanitizeHtml(req.body.description).replace(/'/g, "''"); // escape '
-        const posting_no = sanitizeHtml(req.body.posting_no);
 
-        const sql = `UPDATE counsel_comments SET writer='${writer}', description='${description}' WHERE no=${no}`;
+        const sql = `UPDATE counsel_comments SET writer='${writer}', description='${description}' WHERE no=${comment_no}`;
         connection.query(sql, (error, results) => {
             if (error) throw error;
-            console.log(`a comment${no} in counsel${posting_no} has been updated`);
-            res.redirect(`/nanumteo/counsel/${posting_no}`);
+            console.log(`** a comment${comment_no} of counsel${no} has been updated`);
+            res.redirect(`/nanumteo/counsel/${no}`);
         });
     } else {
         console.log("WRONG");
-        res.redirect("/nanumteo");
+        res.redirect("/nanumteo/counsel");
     }
 });
 
