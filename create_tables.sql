@@ -1,3 +1,18 @@
+/* 회원: 1) 관리자 2) 관계자 3) 일반 회원 */
+create table users(
+	no INT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME NOT NULL DEFAULT current_timestamp,
+    is_withdrawn BOOLEAN NOT NULL DEFAULT 0, /* 탈퇴 여부, TRUE-1, FALSE-0 */
+	name VARCHAR(10) NOT NULL UNIQUE, /* 닉네임 */
+    level INT NOT NULL DEFAULT 3, /* 회원 등급, 1-관리자, 2-관계자, 3-일반 회원 */
+    id VARCHAR(15) NOT NULL UNIQUE, /* 아이디 */
+    password TEXT NOT NULL, /* 암호화된 비밀번호 */
+    salt TEXT NOT NULL, /* 솔트 */
+    PRIMARY KEY(no)
+);
+
+
+
 /* 나눔터: 1) 후원 신청서 2) 자원봉사 신청서 3) 비밀상담 */
 
 /* 후원 신청서 */
@@ -32,8 +47,6 @@ create table sponsorship(
     CONSTRAINT CHK_period CHECK (period in ("-", "6개월", "1년", "2년", "3년", "평생"))
 );
 
-
-
 /* 자원봉사 신청서 */
 CREATE TABLE volunteerwork(
 	no INT NOT NULL AUTO_INCREMENT,
@@ -53,7 +66,6 @@ CREATE TABLE volunteerwork(
     speak TEXT,
     PRIMARY KEY(no)
 );
-
 
 /* 비밀상담 */
 create table counsel(
