@@ -1,3 +1,5 @@
+/* 나눔터: 1) 후원 신청서 2) 자원봉사 신청서 3) 비밀상담 */
+
 /* 후원 신청서 */
 create table sponsorship(
 	no INT NOT NULL AUTO_INCREMENT,
@@ -49,5 +51,19 @@ CREATE TABLE volunteerwork(
 	begin_date DATE NOT NULL DEFAULT (current_date()),
     end_date DATE NOT NULL DEFAULT (current_date()),
     speak TEXT,
+    PRIMARY KEY(no)
+);
+
+
+/* 비밀상담 */
+create table counsel(
+	no INT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME NOT NULL DEFAULT current_timestamp,
+    is_deleted BOOLEAN NOT NULL DEFAULT 0, /* 삭제여부, FALSE-0, TRUE-1 */
+    title VARCHAR(30) NOT NULL, /* 제목 */
+    writer VARCHAR(10) NOT NULL, /* 작성자 */
+    description TEXT, /* 내용 */
+    password TEXT NOT NULL,
+    salt TEXT NOT NULL,
     PRIMARY KEY(no)
 );
