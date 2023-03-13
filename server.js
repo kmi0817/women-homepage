@@ -14,15 +14,25 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
-app.use(methodOverride("_method"));
-app.engine("html", require("ejs").renderFile);
+// app.set("views", __dirname + "/views");
+// app.set("view engine", "ejs");
+// app.use(methodOverride("_method"));
+// app.engine("html", require("ejs").renderFile);
 
 // database
 const mysql = require("mysql");
 const config = require("./config.js");
+const { dirname } = require('path/posix');
 const connection = mysql.createConnection(config);
+
+const path = require('path');
+const publicDirectoryPath = path.join(__dirname, '/front-end');
+app.use(express.static(publicDirectoryPath))
+
+app.get("/*", (req, res) => {
+    res.sendFile(path.resolve('front-end', "index.html"));
+});
+
 
 app.get("/", async (req, res) => {
     /* results: 새글 소식, results2: 공지사항, results3: 연혁 */

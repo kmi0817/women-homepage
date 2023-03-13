@@ -3,11 +3,11 @@ import { BaseComponent } from '../BaseComponent.js';
 export class Header extends BaseComponent<HTMLElement> {
     constructor() {
         super(`<header class="header"><div class="menuLogo">
-        <a href="/" data-link class="go_home">한국여성의집</a>
+        <a class="go_home">한국여성의집</a>
         </div>
         <div class="menuList">
-        <li class="menucell"><a class="go_program" href="/program" data-link>프로그램 안내</a></li>
-        <li class="menucell"><a href="/" data-link>사랑의 나눔터</a>
+        <li class="menucell"><a class="go_program">프로그램 안내</a></li>
+        <li class="menucell"><a href="/">사랑의 나눔터</a>
             <ul class="drop-down">
                 <li><a href="#">후원안내</a></li>
                 <li><a href="#">후원신청</a></li>
@@ -15,7 +15,7 @@ export class Header extends BaseComponent<HTMLElement> {
                 <li><a href="#">자원봉사신청</a></li>
             </ul>
         </li>
-        <li class="menucell"><a href="/" data-link>커뮤니티</a>
+        <li class="menucell"><a href="/">커뮤니티</a>
             <ul class="drop-down">
                 <li><a href="#">공지사항</a></li>
                 <li><a href="#">시설이미지</a></li>
@@ -23,7 +23,7 @@ export class Header extends BaseComponent<HTMLElement> {
                 <li><a href="#">포토갤러리</a></li>
             </ul>
         </li>
-        <li class="menucell"><a href="/" data-link>소소뜨라</a></li>
+        <li class="menucell"><a class="go_sostt">소소뜨라</a></li>
     </div>
     </header>`);
     }
@@ -41,5 +41,11 @@ export class Header extends BaseComponent<HTMLElement> {
             const newEvent = new CustomEvent("hrefchange");
             window.dispatchEvent(newEvent);
         });
+        const sosttButton = document.querySelector('.go_sostt') as HTMLAnchorElement;
+        sosttButton.addEventListener('click', () => {
+            history.pushState('', '', '/sostt');
+            const newEvent = new CustomEvent("hrefchange");
+            window.dispatchEvent(newEvent);
+        })
     }
 }

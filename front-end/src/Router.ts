@@ -1,6 +1,7 @@
 import { MainPage } from './/pages/MainPage.js';
 import { ProgramPage } from './pages/Program.js';
 import { ErrorPage } from './pages/Error.js';
+import { Sostt } from './pages/Sostt.js';
 
 type pagesType = {
     page: any,
@@ -11,6 +12,7 @@ export class Router {
     private pages = [
         { page: MainPage, path: '' },
         { page: ProgramPage, path: 'program' },
+        { page: Sostt, path: 'sostt' },
     ];
     private nowPage: string = ``;
 
