@@ -91,3 +91,21 @@ CREATE TABLE counsel_comments(
     PRIMARY KEY(no),
     FOREIGN KEY(posting_no) REFERENCES counsel(no) ON UPDATE CASCADE 
 );
+
+
+
+/* 커뮤니티: 1) 공지사항 2) 시설 이미지 3) 자유게시판 4) 포토갤러리 */
+
+CREATE TABLE bbs(
+	no INT NOT NULL AUTO_INCREMENT,
+    created_at DATETIME NOT NULL DEFAULT current_timestamp,
+    is_deleted BOOLEAN NOT NULL DEFAULT 0, /* 삭제여부, FALSE-0, TRUE-1 */
+    bbs VARCHAR(9) NOT NULL,
+    title VARCHAR(30) NOT NULL, /* 제목 */
+    writer VARCHAR(10) NOT NULL, /* 작성자 */
+    description TEXT, /* 내용 */
+    filename TEXT, /* 파일 이름 */
+    PRIMARY KEY(no),
+    /* 도메인 제약조건 */
+    CONSTRAINT CHK_bbs CHECK (bbs in ("board", "images", "community", "gallery"))
+);
