@@ -54,7 +54,9 @@ router.get("/board/:no", async (req, res) => {
     let sql = `SELECT * FROM bbs WHERE no=${no} and is_deleted=0`;
     connection.query(sql, (error, results) => {
         if (error) throw error;
-        res.send(results);
+        const filename = results[0]["filename"] // DB에 저장된 파일 이름
+        const full_filename = path.join(__dirname, "../upload", filename); // 파일의 절대 경로
+        res.sendFile(full_filename); // sendFle은 1개의 파일만 보낼 수 있다.
     });
 });
 
