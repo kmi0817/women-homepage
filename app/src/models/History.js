@@ -27,6 +27,16 @@ class History {
             return { success: false, err };
         }
     }
+
+    async drop() {
+        const history = this.body;
+        try {
+            const response = await HistoryStorage.delete(history);
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = History;

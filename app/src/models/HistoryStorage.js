@@ -28,6 +28,17 @@ class HistoryStorage {
             });
         });
     }
+
+    static async delete(historyInfo) {
+        return new Promise((resolve, reject) => {
+            const query = "DELETE FROM history WHERE uuid=?;";
+
+            db.query(query, [historyInfo.uuid], (err) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true });
+            });
+        });
+    }
 }
 
 module.exports = HistoryStorage;

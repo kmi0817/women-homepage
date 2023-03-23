@@ -31,8 +31,18 @@ const patch = {
     },
 }
 
+const del = {
+    history: async(req, res) => {
+        const history = new History(req.body);
+        const response = history.drop();
+
+        return res.json(response);
+    },
+}
+
 module.exports = {
     output,
     post,
-    patch
+    patch,
+    del,
 };
