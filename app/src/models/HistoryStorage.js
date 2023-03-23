@@ -8,10 +8,21 @@ class HistoryStorage {
 
     static async save(historyInfo) {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO history2(uuid, year, month, description) VALUES(?, ?, ?, ?);";
+            const query = "INSERT INTO history(uuid, year, month, description) VALUES(?, ?, ?, ?);";
             const uuid = v1();
 
             db.query(query, [uuid, historyInfo.year, historyInfo.month, historyInfo.description], (err) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true });
+            });
+        });
+    }
+
+    static async update(uuid, historyInfo) {
+        return new Promise((resolve, reject) => {
+            const query = "UPDATE history SET year=?, month=?, description=? WHERE uuid=?;";
+
+            db.query(query, [historyInfo.year, historyInfo.month, historyInfo.description, uuid], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });
