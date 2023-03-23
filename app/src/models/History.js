@@ -17,6 +17,15 @@ class History {
         }
     }
 
+    async show() {
+        try {
+            const response = await HistoryStorage.getHistories();
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
     async modify() {
         const history = this.body;
         try {

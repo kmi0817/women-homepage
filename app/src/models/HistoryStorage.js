@@ -6,6 +6,16 @@ const db = require("../config/db");
 
 class HistoryStorage {
 
+    static async getHistories() {
+        return new Promise((resolve, reject) => {
+            const query = "SELECT year, description FROM history ORDER BY year, month;";
+            db.query(query, (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true, data: data });
+            });
+        });
+    }
+
     static async save(historyInfo) {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO history(uuid, year, month, description) VALUES(?, ?, ?, ?);";

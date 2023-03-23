@@ -5,9 +5,11 @@ const sanitizeHtml = require("sanitize-html");
 const History = require("../models/History");
 
 const output = {
-    main: (req, res) => {
-        // const histories = await 
-        res.send({ success: true, msg: "메인 화면" });
+    main: async (req, res) => {
+        const history = new History(req.body);
+        const response = await history.show();
+        
+        return res.json(response);
     },
 }
 
