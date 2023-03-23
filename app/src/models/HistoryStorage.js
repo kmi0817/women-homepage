@@ -18,11 +18,11 @@ class HistoryStorage {
         });
     }
 
-    static async update(uuid, historyInfo) {
+    static async update(historyInfo) {
         return new Promise((resolve, reject) => {
             const query = "UPDATE history SET year=?, month=?, description=? WHERE uuid=?;";
 
-            db.query(query, [historyInfo.year, historyInfo.month, historyInfo.description, uuid], (err) => {
+            db.query(query, [historyInfo.year, historyInfo.month, historyInfo.description, historyInfo.uuid], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });

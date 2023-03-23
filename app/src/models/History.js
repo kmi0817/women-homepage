@@ -17,11 +17,10 @@ class History {
         }
     }
 
-    async modify(uuid) {
+    async modify() {
         const history = this.body;
-
         try {
-            const response = await HistoryStorage.update(uuid, history);
+            const response = await HistoryStorage.update(history);
             return response;
         } catch (err) {
             return { success: false, err };
