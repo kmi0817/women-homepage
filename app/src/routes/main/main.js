@@ -3,8 +3,10 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../../controllers/main.controller");
+const mainController = require("../../controllers/main.controller");
 
-router.get("/", controller.output.main);
+router.get("/", mainController.output.main);
+
+router.post("/history", mainController.post.history);
 
 module.exports = router;

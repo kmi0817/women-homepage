@@ -1,11 +1,24 @@
 "use strict";
 
+const History = require("../models/History");
+
 const output = {
     main: (req, res) => {
+        // const histories = await 
         res.send({ success: true, msg: "메인 화면" });
+    },
+}
+
+const post = {
+    history: async (req, res) => {
+        const history = new History(req.body);
+        const response = await history.register();
+
+        return res.json(response);
     },
 }
 
 module.exports = {
     output,
+    post
 };
