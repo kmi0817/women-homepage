@@ -1,11 +1,18 @@
-1. Before running...
+## Before running...
+
 ✅ **change the name of *front-end* to *views***
-- Execute the command below on /app
-- This will install every module written in package.json
+
+#### 1. Install all necessary modules
+
 ```
 npm install
 ```
-- Create ".env" file on /app
+
+- Make sure that you're on **/app** when executing the above command
+- Every module written in package.json will be installed
+
+#### 2. Create ".env" file on /app
+
 ```json
 NODE_ENV="dev"
 
@@ -18,8 +25,8 @@ DB_DATABASE=""
 DB_PORT=
 ```
 
-2. How to run
-- Make sure that you're on /app
+## How to run
+✅ Make sure that you're on /app
 ```
 npm start
 ```
