@@ -12,6 +12,7 @@ const main = require("./src/routes/main/main");
 const notice = require("./src/routes/community/notice");
 const facility = require("./src/routes/community/facility");
 const free = require("./src/routes/community/free");
+const gallery = require("./src/routes/community/gallery");
 
 // App Setting
 app.use(bodyParser.json()); // enable bodyParser to parse JSON data
@@ -21,5 +22,6 @@ app.use("/", main);
 app.use("/notice", notice);
 app.use("/facility", facility);
 app.use("/free", free);
+app.use("/gallery", gallery);
 
 module.exports = app;
