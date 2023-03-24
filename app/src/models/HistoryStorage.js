@@ -18,10 +18,10 @@ class HistoryStorage {
 
     static async save(historyInfo) {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO history(uuid, year, month, description) VALUES(?, ?, ?, ?);";
-            const uuid = v1();
+            const query = "INSERT INTO history(id, year, month, description) VALUES(?, ?, ?, ?);";
+            const id = v1();
 
-            db.query(query, [uuid, historyInfo.year, historyInfo.month, historyInfo.description], (err) => {
+            db.query(query, [id, historyInfo.year, historyInfo.month, historyInfo.description], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });
@@ -30,9 +30,9 @@ class HistoryStorage {
 
     static async update(historyInfo) {
         return new Promise((resolve, reject) => {
-            const query = "UPDATE history SET year=?, month=?, description=? WHERE uuid=?;";
+            const query = "UPDATE history SET year=?, month=?, description=? WHERE id=?;";
 
-            db.query(query, [historyInfo.year, historyInfo.month, historyInfo.description, historyInfo.uuid], (err) => {
+            db.query(query, [historyInfo.year, historyInfo.month, historyInfo.description, historyInfo.id], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });
@@ -41,9 +41,9 @@ class HistoryStorage {
 
     static async delete(historyInfo) {
         return new Promise((resolve, reject) => {
-            const query = "DELETE FROM history WHERE uuid=?;";
+            const query = "DELETE FROM history WHERE id=?;";
 
-            db.query(query, [historyInfo.uuid], (err) => {
+            db.query(query, [historyInfo.id], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });
