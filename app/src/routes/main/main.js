@@ -7,8 +7,8 @@ const mainController = require("../../controllers/main.controller");
 
 router.get("/", mainController.output.main);
 
-router.post("/history", mainController.post.history);
-router.patch("/history", mainController.patch.history);
-router.delete("/history", mainController.del.history);
+router.post("/history", mainController.process.register);
+router.patch("/history", mainController.process.modify);
+router.delete("/history", mainController.process.remove);
 
 module.exports = router;

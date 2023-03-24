@@ -11,36 +11,28 @@ const output = {
     },
 }
 
-const post = {
-    history: async (req, res) => {
+const process = {
+    register: async (req, res) => {
         const history = new History(req.body);
         const response = await history.register();
 
         return res.json(response);
     },
-}
-
-const patch = {
-    history: async (req, res) => {
+    modify: async (req, res) => {
         const history = new History(req.body);
         const response = await history.modify();
 
         return res.json(response);
     },
-}
-
-const del = {
-    history: async(req, res) => {
+    remove: async(req, res) => {
         const history = new History(req.body);
-        const response = history.drop();
+        const response = history.remove();
 
         return res.json(response);
     },
-}
+};
 
 module.exports = {
     output,
-    post,
-    patch,
-    del,
+    process
 };

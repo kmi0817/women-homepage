@@ -36,7 +36,7 @@ class History {
         }
     }
 
-    async drop() {
+    async remove() {
         const history = this.body;
         try {
             const response = await HistoryStorage.delete(history);
