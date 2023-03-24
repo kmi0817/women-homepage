@@ -37,6 +37,16 @@ class Notice {
         }
     }
 
+    async modify() {
+        try {
+            const notice = this.body;
+            const response = await NoticeStorage.update(notice);
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
+
     async remove() {
         try {
             const notice = this.body;

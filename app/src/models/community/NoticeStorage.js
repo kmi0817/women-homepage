@@ -53,6 +53,16 @@ class NoticeStorage {
         });
     }
 
+    static async update(noticeInfo) {
+        return new Promise((resolve, reject) => {
+            const query = "UPDATE notice SET title=?, description=?, originalname=?, filename=? WHERE id=? and is_deleted=?;";
+            db.query(query, [noticeInfo.title, noticeInfo.description, noticeInfo.originalname, noticeInfo.filename, noticeInfo.id, 0], (err) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true });
+            });
+        });
+    }
+
     static async delete(noticeInfo) {
         return new Promise((resolve, reject) => {
             const query = "UPDATE notice SET is_deleted=1 WHERE id=?;";

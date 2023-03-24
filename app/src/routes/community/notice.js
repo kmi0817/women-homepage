@@ -31,7 +31,17 @@ router.post(
             return err ? res.json({ success: false, err }) : next();
         });
     },
-    noticeController.process.register);
+    noticeController.process.register
+);
+router.patch(
+    "/modify",
+    (req, res, next) => {
+        upload(req, res, (err) => {
+            return err ? res.json({ success: false, err }) : next();
+        });
+    },
+    noticeController.process.modify
+);
 router.delete("/remove", noticeController.process.remove);
 
 module.exports = router;

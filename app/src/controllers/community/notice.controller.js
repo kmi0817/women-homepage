@@ -35,6 +35,26 @@ const process = {
         const response = await notice.register();
         return res.json(response);
     },
+    modify: async (req, res) => {
+        req.body["originalname"] = null;
+        req.body["filename"] = null;
+
+        const length = req.files.length;
+        if (length) {
+            let originalnames = [],
+                filenames = [];
+            for (let f of req.files) {
+                originalnames.push(f.originalname);
+                filenames.push(f.filename);
+            }
+            req.body["originalname"] = `${originalnames}`;
+            req.body["filename"] = `${filenames}`;
+        }
+
+        const notice = new Notice(req.body);
+        const response = notice.modify();
+        return res.json(response);
+    },
     remove: async (req, res) => {
         const notice = new Notice(req.body);
         const response = await notice.remove();
