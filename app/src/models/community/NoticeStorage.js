@@ -52,7 +52,16 @@ class NoticeStorage {
             }
         });
     }
-    
+
+    static async delete(noticeInfo) {
+        return new Promise((resolve, reject) => {
+            const query = "UPDATE notice SET is_deleted=1 WHERE id=?;";
+            db.query(query, [noticeInfo.id], (err) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true });
+            });
+        });
+    }
 }
 
 module.exports = NoticeStorage;

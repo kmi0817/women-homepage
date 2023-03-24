@@ -32,5 +32,6 @@ router.post(
         });
     },
     noticeController.process.register);
+router.delete("/remove", noticeController.process.remove);
 
 module.exports = router;

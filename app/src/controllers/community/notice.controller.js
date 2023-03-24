@@ -35,6 +35,11 @@ const process = {
         const response = await notice.register();
         return res.json(response);
     },
+    remove: async (req, res) => {
+        const notice = new Notice(req.body);
+        const response = await notice.remove();
+        return res.json(response);
+    },
 }
 
 module.exports = {
