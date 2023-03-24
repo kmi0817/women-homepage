@@ -6,7 +6,11 @@ const output = {
     main: async (req, res) => {
         const history = new History(req.body);
         const response = await history.show();
-
+        return res.json(response);
+    },
+    sostt: async (req, res) => {
+        const history = new History(req.body);
+        const response = await history.show();
         return res.json(response);
     },
 }
