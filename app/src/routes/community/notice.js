@@ -10,15 +10,15 @@ router.get("/", noticeController.output.notice);
 router.get("/:id", noticeController.output.noticeId);
 
 router.post(
-    "/register",
+    "/",
     uploadErrHandle,
     noticeController.process.register
 );
 router.patch(
-    "/modify",
+    "/",
     uploadErrHandle,
     noticeController.process.modify
 );
-router.delete("/remove", noticeController.process.remove);
+router.delete("/", noticeController.process.remove);
 
 module.exports = router;
