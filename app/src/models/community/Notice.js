@@ -26,6 +26,16 @@ class Notice {
             return { success: false, err };
         }
     }
+
+    async showOne() {
+        try {
+            const notice = this.body;
+            const response = await NoticeStorage.getNotice(notice.id);
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = Notice;

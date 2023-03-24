@@ -21,6 +21,19 @@ class NoticeStorage {
         });
     }
 
+    static async getNotice(id) {
+        return new Promise((resolve, reject) => {
+            const query = "SELECT * FROM notice WHERE id=? and is_deleted=0;";
+            db.query(query, [id], (err, data) => {
+                if (err) reject(`${err}`);
+                else {
+                    if (!data.length) resolve({ success: false, err: "id doesn't exist in notice" });
+                    else resolve({ success: true, data: data });
+                }
+            });
+        });
+    }
+
     static async save(noticeInfo) {
         return new Promise((resolve, reject) => {
             const id = v4();

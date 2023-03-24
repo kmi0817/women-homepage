@@ -9,8 +9,11 @@ const output = {
         const response = await notice.show();
         return res.json(response);
     },
-    noticeId: (req, res) => {
-        res.send("공지사항 자세히 보기");
+    noticeId: async (req, res) => {
+        req.body["id"] = req.params.id;
+        const notice = new Notice(req.body);
+        const response = await notice.showOne();
+        return res.json(response);
     },
 }
 
