@@ -20,7 +20,7 @@ class Notice {
     async show() {
         try {
             const notice = this.body;
-            const response = await NoticeStorage.getHistories(notice.pageNo);
+            const response = await NoticeStorage.getNotices(notice.pageNo);
             return response;
         } catch (err) {
             return { success: false, err };

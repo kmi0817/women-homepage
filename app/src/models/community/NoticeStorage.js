@@ -5,7 +5,7 @@ const db = require("../../config/db");
 
 class NoticeStorage {
 
-    static async getHistories(pageNo) {
+    static async getNotices(pageNo) {
         return new Promise((resolve, reject) => {
             const startNo = (pageNo - 1) * 10; // 해당 pageNo에서의 startNo
             const query = `SELECT id, created_at, title, writer
