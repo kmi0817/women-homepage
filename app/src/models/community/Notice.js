@@ -18,8 +18,8 @@ class Notice {
     }
 
     async show() {
+        const notice = this.body;
         try {
-            const notice = this.body;
             const response = await NoticeStorage.getNotices(notice);
             return response;
         } catch (err) {
@@ -28,8 +28,8 @@ class Notice {
     }
 
     async showOne() {
+        const notice = this.body;
         try {
-            const notice = this.body;
             const response = await NoticeStorage.getNotice(notice);
             return response;
         } catch (err) {
@@ -38,8 +38,8 @@ class Notice {
     }
 
     async modify() {
+        const notice = this.body;
         try {
-            const notice = this.body;
             const response = await NoticeStorage.update(notice);
             return response;
         } catch (err) {
@@ -48,8 +48,8 @@ class Notice {
     }
 
     async remove() {
+        const notice = this.body;
         try {
-            const notice = this.body;
             const response = await NoticeStorage.delete(notice);
             return response;
         } catch (err) {

@@ -20,7 +20,10 @@ const output = {
 const process = {
     register: async (req, res) => {
         const length = req.files.length;
-        if (length) {
+        if (!length) {
+            req.body["originalname"] = null;
+            req.body["filename"] = null;
+        } else {
             let originalnames = [],
                 filenames = [];
             for (let f of req.files) {
@@ -36,11 +39,11 @@ const process = {
         return res.json(response);
     },
     modify: async (req, res) => {
-        req.body["originalname"] = null;
-        req.body["filename"] = null;
-
         const length = req.files.length;
-        if (length) {
+        if (!length) {
+            req.body["originalname"] = null;
+            req.body["filename"] = null;
+        } else {
             let originalnames = [],
                 filenames = [];
             for (let f of req.files) {
