@@ -5,9 +5,9 @@ const db = require("../../config/db");
 
 class NoticeStorage {
 
-    static async getNotices(pageNo) {
+    static async getNotices(noticeInfo) {
         return new Promise((resolve, reject) => {
-            const startNo = (pageNo - 1) * 10; // 해당 pageNo에서의 startNo
+            const startNo = (noticeInfo.pageNo - 1) * 10; // 해당 pageNo에서의 startNo
             const query = `SELECT id, created_at, title, writer
             FROM notice
             WHERE is_deleted=0
@@ -21,13 +21,13 @@ class NoticeStorage {
         });
     }
 
-    static async getNotice(id) {
+    static async getNotice(noticeInfo) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM notice WHERE id=? and is_deleted=0;";
-            db.query(query, [id], (err, data) => {
+            db.query(query, [noticeInfo.id], (err, data) => {
                 if (err) reject(`${err}`);
                 else {
-                    if (!data.length) resolve({ success: false, err: "id doesn't exist in notice" });
+                    if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${noticeInfo.id} doesn't exist in 'women.notice.id'` });
                     else resolve({ success: true, data: data });
                 }
             });

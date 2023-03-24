@@ -20,7 +20,7 @@ class Notice {
     async show() {
         try {
             const notice = this.body;
-            const response = await NoticeStorage.getNotices(notice.pageNo);
+            const response = await NoticeStorage.getNotices(notice);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -30,7 +30,7 @@ class Notice {
     async showOne() {
         try {
             const notice = this.body;
-            const response = await NoticeStorage.getNotice(notice.id);
+            const response = await NoticeStorage.getNotice(notice);
             return response;
         } catch (err) {
             return { success: false, err };
