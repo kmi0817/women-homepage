@@ -5,6 +5,22 @@ const db = require("../../config/db");
 
 class NoticeStorage {
 
+    static async getHistories(pageNo) {
+        return new Promise((resolve, reject) => {
+            const startNo = (pageNo - 1) * 10; // 해당 pageNo에서의 startNo
+            const query = `SELECT id, created_at, title, writer
+            FROM notice
+            WHERE is_deleted=0
+            ORDER BY created_at DESC
+            LIMIT ${startNo}, 10;`;
+            // startNo번째부터 10개의 레코드를 가져온다.
+            db.query(query, (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true, data: data });
+            });
+        });
+    }
+
     static async save(noticeInfo) {
         return new Promise((resolve, reject) => {
             const id = v4();

@@ -16,6 +16,16 @@ class Notice {
             return { success: false, err };
         }
     }
+
+    async show() {
+        try {
+            const notice = this.body;
+            const response = await NoticeStorage.getHistories(notice.pageNo);
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = Notice;

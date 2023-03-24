@@ -21,6 +21,9 @@ const upload = multer({
     storage: storage
 }).array("attachedFiles", 5); // maxCount 5
 
+router.get("/", noticeController.output.notice);
+router.get("/:id", noticeController.output.noticeId);
+
 router.post(
     "/register",
     (req, res, next) => {

@@ -2,6 +2,18 @@
 
 const Notice = require("../../models/community/Notice");
 
+const output = {
+    notice: async (req, res) => {
+        req.body["pageNo"] = Number(req.query.pageNo) || 1;
+        const notice = new Notice(req.body);
+        const response = await notice.show();
+        return res.json(response);
+    },
+    noticeId: (req, res) => {
+        res.send("공지사항 자세히 보기");
+    },
+}
+
 const process = {
     register: async (req, res) => {
         const length = req.files.length;
@@ -23,5 +35,6 @@ const process = {
 }
 
 module.exports = {
-    process,
+    output,
+    process
 };
