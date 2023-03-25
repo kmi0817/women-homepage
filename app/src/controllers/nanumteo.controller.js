@@ -53,7 +53,6 @@ const process = {
         // password encryption
         const salt = await bcrypt.genSalt(10); // generate a random 10 char string (length: 29)
         const password = await bcrypt.hash(req.body["password"], salt); // length: 60
-        req.body.salt = salt; // add salt
         req.body["password"] = password; // change plain password to hashed password
 
         // file attachment

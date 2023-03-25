@@ -27,11 +27,11 @@ class CounselStorage {
 
     static async save(cInfo) {
         return new Promise((resolve, reject) => {
-            const query = "INSERT INTO counsel(id, title, writer, description, salt, password, originalname, filename) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
+            const query = "INSERT INTO counsel(id, title, writer, description, password, originalname, filename) VALUES(?, ?, ?, ?, ?, ?, ?);";
             db.query(
                 query,
                 [
-                    cInfo.id, cInfo.title, cInfo.writer, cInfo.description, cInfo.salt, cInfo.password, cInfo.originalname, cInfo.filename
+                    cInfo.id, cInfo.title, cInfo.writer, cInfo.description, cInfo.password, cInfo.originalname, cInfo.filename
                 ],
                 (err) => {
                     if (err) reject(`${err}`);
