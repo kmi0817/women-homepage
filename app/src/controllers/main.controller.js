@@ -46,7 +46,7 @@ const process = {
     },
     remove: async(req, res) => {
         const history = new History(req.body);
-        const response = history.remove();
+        const response = await history.remove();
 
         return res.json(response);
     },
