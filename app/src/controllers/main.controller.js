@@ -6,7 +6,7 @@ const Free = require("../models/community/Free");
 
 const output = {
     main: async (req, res) => {
-        req.body["pageNo"] = Number(req.query.pageNo) || 1;
+        req.body.pageNo = Number(req.query.pageNo) || 1;
 
         const history = new History(req.body);
         const response1 = await history.show();

@@ -7,14 +7,14 @@ const output = {
     free: async (req, res) => {
         const pageNo = Number(req.query.pageNo) || 1; // set page number
         const startNo = (pageNo - 1) * 10; // set start number on that page
-        req.body.startNo = startNo;
+        req.body.startNo = startNo; // add startNo in req.body
         
         const free = new Free(req.body);
         const response = await free.show();
         return res.json(response);
     },
     freeId: async (req, res) => {
-        req.body["id"] = req.params.id;
+        req.body.id = req.params.id; // add id in req.body
         const free = new Free(req.body);
         const response = await free.showOne();
         return res.json(response);
@@ -23,20 +23,21 @@ const output = {
 
 const process = {
     register: async (req, res) => {
-        req.body["id"] = uuid4(); // add id
+        req.body.id = uuid4(); // add id
+
+        // process file
         const length = req.files.length;
-        if (!length) {
-            req.body["originalname"] = null;
-            req.body["filename"] = null;
-        } else {
-            let originalnames = [],
-                filenames = [];
+        if (!length) { // no attachment
+            req.body.originalname = null;
+            req.body.filename = null;
+        } else { // attachement
+            let originalnames = [], filenames = [];
             for (let f of req.files) {
                 originalnames.push(f.originalname);
                 filenames.push(f.filename);
             }
-            req.body["originalname"] = `${originalnames}`;
-            req.body["filename"] = `${filenames}`;
+            req.body.originalname = `${originalnames}`;
+            req.body.filename = `${filenames}`;
         }
 
         const free = new Free(req.body);
@@ -44,19 +45,19 @@ const process = {
         return res.json(response);
     },
     modify: async (req, res) => {
+        // process file
         const length = req.files.length;
-        if (!length) {
-            req.body["originalname"] = null;
-            req.body["filename"] = null;
-        } else {
-            let originalnames = [],
-                filenames = [];
+        if (!length) { // no attachment
+            req.body.originalname = null;
+            req.body.filename = null;
+        } else { // attachement
+            let originalnames = [], filenames = [];
             for (let f of req.files) {
                 originalnames.push(f.originalname);
                 filenames.push(f.filename);
             }
-            req.body["originalname"] = `${originalnames}`;
-            req.body["filename"] = `${filenames}`;
+            req.body.originalname = `${originalnames}`;
+            req.body.filename = `${filenames}`;
         }
 
         const free = new Free(req.body);
