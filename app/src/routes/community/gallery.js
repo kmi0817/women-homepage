@@ -9,17 +9,8 @@ const uploadErrHandle = require("../../config/upload");
 router.get("/", galleryController.output.gallery);
 router.get("/:id", galleryController.output.galleryId);
 
-router.post(
-    "/",
-    uploadErrHandle,
-    galleryController.process.register
-);
-router.patch(
-    "/",
-    uploadErrHandle,
-    galleryController.process.modify
-);
-
+router.post("/", uploadErrHandle, galleryController.process.register);
+router.patch("/", uploadErrHandle, galleryController.process.modify);
 router.delete("/", galleryController.process.remove);
 
 module.exports = router;

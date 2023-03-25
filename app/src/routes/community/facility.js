@@ -8,18 +8,8 @@ const uploadErrHandle = require("../../config/upload");
 
 router.get("/", facilityController.output.facility);
 
-router.post(
-    "/",
-    uploadErrHandle,
-    facilityController.process.register
-);
-
-router.patch(
-    "/",
-    uploadErrHandle,
-    facilityController.process.modify
-);
-
+router.post("/", uploadErrHandle, facilityController.process.register);
+router.patch("/", uploadErrHandle, facilityController.process.modify);
 router.delete("/", facilityController.process.remove);
 
 module.exports = router;
