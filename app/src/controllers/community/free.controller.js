@@ -71,7 +71,7 @@ const process = {
         }
 
         const free = new Free(req.body);
-        const response = free.modify();
+        const response = await free.modify();
         return res.json(response);
     },
     remove: async (req, res) => {

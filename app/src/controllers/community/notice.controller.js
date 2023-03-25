@@ -71,7 +71,7 @@ const process = {
         }
 
         const notice = new Notice(req.body);
-        const response = notice.modify();
+        const response = await notice.modify();
         return res.json(response);
     },
     remove: async (req, res) => {

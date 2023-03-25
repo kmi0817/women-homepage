@@ -65,7 +65,7 @@ const process = {
         }
 
         const facility = new Facility(req.body);
-        const response = facility.modify();
+        const response = await facility.modify();
         return res.json(response);
     },
     remove: async (req, res) => {

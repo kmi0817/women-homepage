@@ -71,7 +71,7 @@ const process = {
         }
 
         const gallery = new Gallery(req.body);
-        const response = gallery.modify();
+        const response = await gallery.modify();
         return res.json(response);
     },
     remove: async (req, res) => {
