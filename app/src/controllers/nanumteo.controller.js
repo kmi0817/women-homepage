@@ -19,6 +19,15 @@ const output = {
     vApply: (req, res) => {
         res.json({ success: true });
     },
+    cMain: async (req, res) => {
+        const pageNo = Number(req.query.pageNo) || 1; // set page number
+        const startNo = (pageNo - 1) * 10; // set start number on that page
+        req.body.startNo = startNo;
+
+        const counsel = new Counsel(req.body);
+        const response = await counsel.show();
+        res.json(response);
+    },
 }
 
 const process = {

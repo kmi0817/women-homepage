@@ -16,6 +16,16 @@ class Counsel {
             return { success: false, err };
         }
     }
+
+    async show() {
+        const counsel = this.body;
+        try {
+            const response = await CounselStorage.getCounsels(counsel);
+            return response;
+        } catch (err) {
+            return { success: false, err};
+        }
+    }
 }
 
 module.exports = Counsel;
