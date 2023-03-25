@@ -1,3 +1,4 @@
+# 한국여성의집: Women Homepage
 ## Before running...
 
 ✅ **change the name of *front-end* to *views***
@@ -13,7 +14,7 @@ npm install
 
 #### 2. Create ".env" file on /app
 
-```json
+```js
 NODE_ENV="dev"
 
 PORT=
