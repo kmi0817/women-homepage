@@ -15,6 +15,16 @@ class CounselStorage {
         });
     }
 
+    static async getCounsel(id) {
+        return new Promise((resolve, reject) => {
+            const query = "SELECT * FROM counsel WHERE id=? and is_deleted=0;";
+            db.query(query, [id], (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve(data[0]);
+            });
+        });
+    }
+
     static async save(cInfo) {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO counsel(id, title, writer, description, salt, password, originalname, filename) VALUES(?, ?, ?, ?, ?, ?, ?, ?);";

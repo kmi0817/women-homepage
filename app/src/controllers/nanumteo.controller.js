@@ -28,6 +28,12 @@ const output = {
         const response = await counsel.show();
         res.json(response);
     },
+    cId: async (req, res) => {
+        req.body.id = req.params.id;
+        const counsel = new Counsel(req.body);
+        const response = await counsel.showOne();
+        res.json(response);
+    }
 }
 
 const process = {
