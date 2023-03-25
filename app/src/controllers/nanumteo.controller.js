@@ -24,9 +24,17 @@ const output = {
         const startNo = (pageNo - 1) * 10; // set start number on that page
         req.body.startNo = startNo; // add startNo in req.body
 
+        // Search
+        if (req.query.category !== undefined && req.query.keyword !== undefined) {
+            if (req.query.category !== "title" && req.query.category !== "writer") // Filter category's value
+                return res.json({ success: false, err: "category should be 'title' or 'writer'" });
+            req.body.category = req.query.category; // add category in req.body
+            req.body.keyword = req.query.keyword // add search keywrod in req.body
+        }
+
         const counsel = new Counsel(req.body);
         const response = await counsel.show();
-        res.json(response);
+        return res.json(response);
     },
     cId: async (req, res) => {
         req.body.id = req.params.id; // add id in req.body

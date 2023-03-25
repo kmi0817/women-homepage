@@ -5,6 +5,28 @@ const db = require("../../config/db");
 
 class CounselStorage {
 
+    static async getCounselsByTitle(cInfo) {
+        return new Promise((resolve, reject) => {
+            const keyword = `%${cInfo.keyword}%`;
+            const query = "SELECT id, created_at, title, writer FROM counsel WHERE is_deleted=0 and title LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
+            db.query(query, [keyword, cInfo.startNo], (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true, data: data });
+            });
+        });
+    }
+
+    static async getCounselsByWriter(cInfo) {
+        return new Promise((resolve, reject) => {
+            const keyword = `%${cInfo.keyword}%`;
+            const query = "SELECT id, created_at, title, writer FROM counsel WHERE is_deleted=0 and writer LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
+            db.query(query, [keyword, cInfo.startNo], (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true, data: data });
+            });
+        });
+    }
+
     static async getCounsels(cInfo) {
         return new Promise((resolve, reject) => {
             const query = "SELECT id, created_at, title, writer FROM counsel WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ?, 10;";

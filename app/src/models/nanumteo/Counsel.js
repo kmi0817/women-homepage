@@ -21,6 +21,17 @@ class Counsel {
     async show() {
         const counsel = this.body;
         try {
+            if (counsel.hasOwnProperty("category")) {
+                if (counsel.category === "title") { // Search by title
+                    const response = await CounselStorage.getCounselsByTitle(counsel);
+                    return response;
+                } else if (counsel.category === "writer") {// Search by writer
+                    const response = await CounselStorage.getCounselsByWriter(counsel);
+                    return response;
+                }
+            }
+            
+            // No search filter
             const response = await CounselStorage.getCounsels(counsel);
             return response;
         } catch (err) {
