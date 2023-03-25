@@ -9,6 +9,16 @@ const output = {
         const startNo = (pageNo - 1) * 10; // set start number on that page
         req.body.startNo = startNo; // add startNo in req.body
         
+        // Search
+        if (req.query.category !== undefined && req.query.keyword !== undefined) {
+            const category = req.query.category;
+            const keyword = req.query.keyword;
+            if (category !== "title" && category !== "writer") // Filter category's value
+                return res.json({ success: false, err: "category should be 'title' or 'writer'" });
+            req.body.category = category; // add category in req.body
+            req.body.keyword = keyword // add search keywrod in req.body
+        }
+
         const facility = new Facility(req.body);
         const response = await facility.show();
         return res.json(response);

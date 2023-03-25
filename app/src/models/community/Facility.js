@@ -20,6 +20,17 @@ class Facility {
     async show() {
         const facility = this.body;
         try {
+            if (facility.hasOwnProperty("category")) {
+                if (facility.category === "title") { // Search by title
+                    const response = await FacilityStorage.getFacilitiesByTitle(facility);
+                    return response;
+                } else if (facility.category === "writer") {// Search by writer
+                    const response = await FacilityStorage.getFacilitiesByWriter(facility);
+                    return response;
+                }
+            }
+            
+            // No search filter
             const response = await FacilityStorage.getFacilities(facility.startNo);
             return response;
         } catch (err) {

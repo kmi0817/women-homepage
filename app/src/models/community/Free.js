@@ -20,6 +20,20 @@ class Free {
     async show() {
         const free = this.body;
         try {
+            if (free.hasOwnProperty("category")) {
+                if (free.category === "title") { // Search by title
+                    const response = await FreeStorage.getFreesByTitle(free);
+                    return response;
+                } else if (free.category === "writer") {// Search by writer
+                    const response = await FreeStorage.getFreesByWriter(free);
+                    return response;
+                } else if (free.category === "description") { // Search by description
+                    const response = await FreeStorage.getFreesByDesc(free);
+                    return response;
+                }
+            }
+            
+            // No search filter
             const response = await FreeStorage.getFrees(free.startNo);
             return response;
         } catch (err) {

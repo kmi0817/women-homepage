@@ -20,6 +20,20 @@ class Notice {
     async show() {
         const notice = this.body;
         try {
+            if (notice.hasOwnProperty("category")) {
+                if (notice.category === "title") { // Search by title
+                    const response = await NoticeStorage.getNoticesByTitle(notice);
+                    return response;
+                } else if (notice.category === "writer") {// Search by writer
+                    const response = await NoticeStorage.getNoticesByWriter(notice);
+                    return response;
+                } else if (notice.category === "description") { // Search by description
+                    const response = await NoticeStorage.getNoticesByDesc(notice);
+                    return response;
+                }
+            }
+            
+            // No search filter
             const response = await NoticeStorage.getNotices(notice.startNo);
             return response;
         } catch (err) {

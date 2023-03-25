@@ -4,6 +4,28 @@ const db = require("../../config/db");
 
 class FacilityStorage {
 
+    static async getFacilitiesByTitle(facilityInfo) {
+        return new Promise((resolve, reject) => {
+            const keyword = `%${facilityInfo.keyword}%`;
+            const query = "SELECT id, created_at, title, writer FROM facility WHERE is_deleted=0 and title LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
+            db.query(query, [keyword, facilityInfo.startNo], (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true, data: data });
+            });
+        });
+    }
+
+    static async getFacilitiesByWriter(facilityInfo) {
+        return new Promise((resolve, reject) => {
+            const keyword = `%${facilityInfo.keyword}%`;
+            const query = "SELECT id, created_at, title, writer FROM facility WHERE is_deleted=0 and writer LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
+            db.query(query, [keyword, facilityInfo.startNo], (err, data) => {
+                if (err) reject(`${err}`);
+                else resolve({ success: true, data: data });
+            });
+        });
+    }
+
     static async getFacilities(startNo) {
         return new Promise((resolve, reject) => {
             const query = "SELECT id, created_at, title, writer, filename FROM facility WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ?, 10;"; // startNo번째부터 10개의 레코드를 가져온다.
