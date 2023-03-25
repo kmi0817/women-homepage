@@ -40,7 +40,14 @@ const output = {
     cId: async (req, res) => {
         req.body.id = req.params.id; // add id in req.body
         const counsel = new Counsel(req.body);
-        const response = await counsel.showOne();
+        const response1 = await counsel.showOne();
+        const cmnt = new CounselComment(req.body);
+        const response2 = await cmnt.show();
+
+        const response = {
+            counsel: response1,
+            comment: response2
+        }
         res.json(response);
     }
 }

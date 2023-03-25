@@ -16,6 +16,16 @@ class CounselComment {
             return { success: false, err };
         }
     }
+
+    async show() {
+        const cmnt = this.body;
+        try {
+            const response = await CounselCommentStorage.getComments(cmnt.id);
+            return response;
+        } catch (err) {
+            return { success: false, err };
+        }
+    }
 }
 
 module.exports = CounselComment;
