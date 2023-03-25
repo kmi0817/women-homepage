@@ -16,5 +16,6 @@ router.get("/counsel/:id", nanumteoController.output.cId);
 router.post("/sponsorship/apply", nanumteoController.process.sApply);
 router.post("/volunteerwork/apply", nanumteoController.process.vApply);
 router.post("/counsel", uploadErrHandle, nanumteoController.process.cRegister);
+router.post("/counsel/comment", nanumteoController.process.cmntRegister);
 
 module.exports = router;

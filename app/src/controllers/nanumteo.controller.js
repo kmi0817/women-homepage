@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const Sponsorship = require("../models/nanumteo/Sponsorship");
 const Volunteerwork = require("../models/nanumteo/Volunteerwork.js");
 const Counsel = require("../models/nanumteo/Counsel");
+const CounselComment = require("../models/nanumteo/CounselComment");
 
 const output = {
     sMain: (req, res) => {
@@ -82,6 +83,12 @@ const process = {
 
         const counsel = new Counsel(req.body);
         const response = await counsel.register();
+        return res.json(response);
+    },
+    cmntRegister: async (req, res) => {
+        req.body.id = uuid4(); // add id
+        const cmnt = new CounselComment(req.body);
+        const response = await cmnt.register();
         return res.json(response);
     },
 }
