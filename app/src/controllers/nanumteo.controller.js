@@ -38,11 +38,13 @@ const output = {
 
 const process = {
     sApply: async (req, res) => {
+        req.body["id"] = uuid4(); // add id
         const sponsorship = new Sponsorship(req.body);
         const response = await sponsorship.apply();
         return res.json(response);
     },
     vApply: async (req, res) => {
+        req.body["id"] = uuid4(); // add id
         const volunteerwork = new Volunteerwork(req.body);
         const response = await volunteerwork.apply();
         return res.json(response);
