@@ -1,10 +1,14 @@
 "use strict";
 
+const { v4: uuid4 } = require("uuid");
 const Notice = require("../../models/community/Notice");
 
 const output = {
     notice: async (req, res) => {
-        req.body["pageNo"] = Number(req.query.pageNo) || 1;
+        const pageNo = Number(req.query.pageNo) || 1; // set page number
+        const startNo = (pageNo - 1) * 10; // set start number on that page
+        req.body.startNo = startNo;
+        
         const notice = new Notice(req.body);
         const response = await notice.show();
         return res.json(response);
@@ -19,6 +23,7 @@ const output = {
 
 const process = {
     register: async (req, res) => {
+        req.body["id"] = uuid4(); // add id
         const length = req.files.length;
         if (!length) {
             req.body["originalname"] = null;

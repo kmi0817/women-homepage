@@ -1,10 +1,14 @@
 "use strict";
 
+const { v4: uuid4 } = require("uuid");
 const Facility = require("../../models/community/Facility");
 
 const output = {
     facility: async (req, res) => {
-        req.body["pageNo"] = Number(req.query.pageNo) || 1;
+        const pageNo = Number(req.query.pageNo) || 1; // set page number
+        const startNo = (pageNo - 1) * 10; // set start number on that page
+        req.body.startNo = startNo;
+        
         const facility = new Facility(req.body);
         const response = await facility.show();
         return res.json(response);
@@ -13,6 +17,7 @@ const output = {
 
 const process = {
     register: async (req, res) => {
+        req.body["id"] = uuid4(); // add id
         const length = req.files.length;
         if (!length) {
             req.body["originalname"] = null;
