@@ -41,9 +41,12 @@ const output = {
         req.body.id = req.params.id; // add id in req.body
         const counsel = new Counsel(req.body);
         const response1 = await counsel.showOne();
+
+        if (!response1.success) // if an error occurs in counsel
+            return res.json(response1); // then just return (don't try to read comments)
+
         const cmnt = new CounselComment(req.body);
         const response2 = await cmnt.show();
-
         const response = {
             counsel: response1,
             comment: response2
