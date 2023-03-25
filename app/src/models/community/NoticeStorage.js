@@ -4,23 +4,23 @@ const db = require("../../config/db");
 
 class NoticeStorage {
 
-    static async getNotices(noticeInfo) {
+    static async getNotices(startNo) {
         return new Promise((resolve, reject) => {
             const query = "SELECT id, created_at, title, writer FROM notice WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ?, 10;"; // startNo번째부터 10개의 레코드를 가져온다.
-            db.query(query, [noticeInfo.startNo], (err, data) => {
+            db.query(query, [startNo], (err, data) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true, data: data });
             });
         });
     }
 
-    static async getNotice(noticeInfo) {
+    static async getNotice(id) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM notice WHERE id=? and is_deleted=0;";
-            db.query(query, [noticeInfo.id], (err, data) => {
+            db.query(query, [id], (err, data) => {
                 if (err) reject(`${err}`);
                 else {
-                    if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${noticeInfo.id} doesn't exist in 'women.notice.id'` });
+                    if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${id} doesn't exist in 'women.notice.id'` });
                     else resolve({ success: true, data: data });
                 }
             });
@@ -47,10 +47,10 @@ class NoticeStorage {
         });
     }
 
-    static async delete(noticeInfo) {
+    static async delete(id) {
         return new Promise((resolve, reject) => {
             const query = "UPDATE notice SET is_deleted=1 WHERE id=?;";
-            db.query(query, [noticeInfo.id], (err) => {
+            db.query(query, [id], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });

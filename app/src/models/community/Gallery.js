@@ -20,7 +20,7 @@ class Gallery {
     async show() {
         const gallery = this.body;
         try {
-            const response = await galleryStorage.getGalleries(gallery);
+            const response = await galleryStorage.getGalleries(gallery.startNo);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -30,7 +30,7 @@ class Gallery {
     async showOne() {
         const gallery = this.body;
         try {
-            const response = await galleryStorage.getGallery(gallery);
+            const response = await galleryStorage.getGallery(gallery.id);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -50,7 +50,7 @@ class Gallery {
     async remove() {
         const gallery = this.body;
         try {
-            const response = await galleryStorage.delete(gallery);
+            const response = await galleryStorage.delete(gallery.id);
             return response;
         } catch (err) {
             return { success: false, err };

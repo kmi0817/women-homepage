@@ -20,7 +20,7 @@ class Free {
     async show() {
         const free = this.body;
         try {
-            const response = await FreeStorage.getFrees(free);
+            const response = await FreeStorage.getFrees(free.startNo);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -30,7 +30,7 @@ class Free {
     async showOne() {
         const free = this.body;
         try {
-            const response = await FreeStorage.getFree(free);
+            const response = await FreeStorage.getFree(free.id);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -50,7 +50,7 @@ class Free {
     async remove() {
         const free = this.body;
         try {
-            const response = await FreeStorage.delete(free);
+            const response = await FreeStorage.delete(free.id);
             return response;
         } catch (err) {
             return { success: false, err };

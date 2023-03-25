@@ -20,7 +20,7 @@ class Facility {
     async show() {
         const facility = this.body;
         try {
-            const response = await FacilityStorage.getFacilities(facility);
+            const response = await FacilityStorage.getFacilities(facility.startNo);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -40,7 +40,7 @@ class Facility {
     async remove() {
         const facility = this.body;
         try {
-            const response = await FacilityStorage.delete(facility);
+            const response = await FacilityStorage.delete(facility.id);
             return response;
         } catch (err) {
             return { success: false, err };

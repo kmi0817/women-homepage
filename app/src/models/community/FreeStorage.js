@@ -4,23 +4,23 @@ const db = require("../../config/db");
 
 class FreeStorage {
 
-    static async getFrees(freeInfo) {
+    static async getFrees(startNo) {
         return new Promise((resolve, reject) => {
             const query = "SELECT id, created_at, title, writer FROM free WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ?, 10;"; // startNo번째부터 10개의 레코드를 가져온다.
-            db.query(query, [freeInfo.startNo], (err, data) => {
+            db.query(query, [startNo], (err, data) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true, data: data });
             });
         });
     }
 
-    static async getFree(freeInfo) {
+    static async getFree(id) {
         return new Promise((resolve, reject) => {
             const query = "SELECT * FROM free WHERE id=? and is_deleted=0;";
-            db.query(query, [freeInfo.id], (err, data) => {
+            db.query(query, [id], (err, data) => {
                 if (err) reject(`${err}`);
                 else {
-                    if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${freeInfo.id} doesn't exist in 'women.free.id'` });
+                    if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${id} doesn't exist in 'women.free.id'` });
                     else resolve({ success: true, data: data });
                 }
             });
@@ -47,10 +47,10 @@ class FreeStorage {
         });
     }
 
-    static async delete(freeInfo) {
+    static async delete(id) {
         return new Promise((resolve, reject) => {
             const query = "UPDATE free SET is_deleted=1 WHERE id=?;";
-            db.query(query, [freeInfo.id], (err) => {
+            db.query(query, [id], (err) => {
                 if (err) reject(`${err}`);
                 else resolve({ success: true });
             });
