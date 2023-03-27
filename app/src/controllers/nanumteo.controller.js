@@ -51,7 +51,7 @@ const output = {
             counsel: response1,
             comment: response2
         }
-        res.json(response);
+        return res.json(response);
     }
 }
 
