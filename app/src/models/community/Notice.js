@@ -22,20 +22,20 @@ class Notice {
         try {
             if (notice.hasOwnProperty("category")) {
                 if (notice.category === "title") { // Search by title
-                    const response = await NoticeStorage.getNoticesByTitle(notice);
-                    return response;
+                    const data = await NoticeStorage.getNoticesByTitle(notice);
+                    return { success: true, data: data };
                 } else if (notice.category === "writer") {// Search by writer
-                    const response = await NoticeStorage.getNoticesByWriter(notice);
-                    return response;
+                    const data = await NoticeStorage.getNoticesByWriter(notice);
+                    return { success: true, data: data };
                 } else if (notice.category === "description") { // Search by description
-                    const response = await NoticeStorage.getNoticesByDesc(notice);
-                    return response;
+                    const data = await NoticeStorage.getNoticesByDesc(notice);
+                    return { success: true, data: data };
                 }
             }
             
             // No search filter
-            const response = await NoticeStorage.getNotices(notice.startNo);
-            return response;
+            const data = await NoticeStorage.getNotices(notice.startNo);
+            return { success: true, data: data };
         } catch (err) {
             return { success: false, err };
         }

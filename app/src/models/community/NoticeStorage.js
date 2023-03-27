@@ -10,7 +10,7 @@ class NoticeStorage {
             const query = "SELECT id, created_at, title, writer FROM notice WHERE is_deleted=0 and title LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
             db.query(query, [keyword, noticeInfo.startNo], (err, data) => {
                 if (err) reject(`${err}`);
-                else resolve({ success: true, data: data });
+                else resolve(data);
             });
         });
     }
@@ -21,7 +21,7 @@ class NoticeStorage {
             const query = "SELECT id, created_at, title, writer FROM notice WHERE is_deleted=0 and writer LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
             db.query(query, [keyword, noticeInfo.startNo], (err, data) => {
                 if (err) reject(`${err}`);
-                else resolve({ success: true, data: data });
+                else resolve(data);
             });
         });
     }
@@ -32,7 +32,7 @@ class NoticeStorage {
             const query = "SELECT id, created_at, title, writer FROM notice WHERE is_deleted=0 and description LIKE ? ORDER BY created_at DESC LIMIT ?, 10;";
             db.query(query, [keyword, noticeInfo.startNo], (err, data) => {
                 if (err) reject(`${err}`);
-                else resolve({ success: true, data: data });
+                else resolve(data);
             });
         });
     }
@@ -42,7 +42,7 @@ class NoticeStorage {
             const query = "SELECT id, created_at, title, writer FROM notice WHERE is_deleted=0 ORDER BY created_at DESC LIMIT ?, 10;"; // startNo번째부터 10개의 레코드를 가져온다.
             db.query(query, [startNo], (err, data) => {
                 if (err) reject(`${err}`);
-                else resolve({ success: true, data: data });
+                else resolve(data);
             });
         });
     }

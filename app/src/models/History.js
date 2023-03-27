@@ -19,8 +19,8 @@ class History {
 
     async show() {
         try {
-            const response = await HistoryStorage.getHistories();
-            return response;
+            const data = await HistoryStorage.getHistories();
+            return { success: true, data: data };
         } catch (err) {
             return { success: false, err };
         }

@@ -22,20 +22,20 @@ class Free {
         try {
             if (free.hasOwnProperty("category")) {
                 if (free.category === "title") { // Search by title
-                    const response = await FreeStorage.getFreesByTitle(free);
-                    return response;
+                    const data = await FreeStorage.getFreesByTitle(free);
+                    return { success: true, data: data };
                 } else if (free.category === "writer") {// Search by writer
-                    const response = await FreeStorage.getFreesByWriter(free);
-                    return response;
+                    const data = await FreeStorage.getFreesByWriter(free);
+                    return { success: true, data: data };
                 } else if (free.category === "description") { // Search by description
-                    const response = await FreeStorage.getFreesByDesc(free);
-                    return response;
+                    const data = await FreeStorage.getFreesByDesc(free);
+                    return { success: true, data: data };
                 }
             }
             
             // No search filter
-            const response = await FreeStorage.getFrees(free.startNo);
-            return response;
+            const data = await FreeStorage.getFrees(free.startNo);
+            return { success: true, data: data };
         } catch (err) {
             return { success: false, err };
         }

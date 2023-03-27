@@ -22,20 +22,20 @@ class Gallery {
         try {
             if (gallery.hasOwnProperty("category")) {
                 if (gallery.category === "title") { // Search by title
-                    const response = await GalleryStorage.getGalleriesByTitle(gallery);
-                    return response;
+                    const data = await GalleryStorage.getGalleriesByTitle(gallery);
+                    return { success: true, data: data };
                 } else if (gallery.category === "writer") {// Search by writer
-                    const response = await GalleryStorage.getGalleriesByWriter(gallery);
-                    return response;
+                    const data = await GalleryStorage.getGalleriesByWriter(gallery);
+                    return { success: true, data: data };
                 } else if (gallery.category === "description") { // Search by description
-                    const response = await GalleryStorage.getGalleriesByDesc(gallery);
-                    return response;
+                    const data = await GalleryStorage.getGalleriesByDesc(gallery);
+                    return { success: true, data: data };
                 }
             }
             
             // No search filter
-            const response = await GalleryStorage.getGalleries(gallery.startNo);
-            return response;
+            const data = await GalleryStorage.getGalleries(gallery.startNo);
+            return { success: true, data: data };
         } catch (err) {
             return { success: false, err };
         }

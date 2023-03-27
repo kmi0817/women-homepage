@@ -22,17 +22,17 @@ class Facility {
         try {
             if (facility.hasOwnProperty("category")) {
                 if (facility.category === "title") { // Search by title
-                    const response = await FacilityStorage.getFacilitiesByTitle(facility);
-                    return response;
+                    const data = await FacilityStorage.getFacilitiesByTitle(facility);
+                    return { success: true, data: data };
                 } else if (facility.category === "writer") {// Search by writer
-                    const response = await FacilityStorage.getFacilitiesByWriter(facility);
-                    return response;
+                    const data = await FacilityStorage.getFacilitiesByWriter(facility);
+                    return { success: true, data: data };
                 }
             }
             
             // No search filter
-            const response = await FacilityStorage.getFacilities(facility.startNo);
-            return response;
+            const data = await FacilityStorage.getFacilities(facility.startNo);
+            return { success: true, data: data };
         } catch (err) {
             return { success: false, err };
         }

@@ -11,7 +11,7 @@ class HistoryStorage {
             const query = "SELECT year, description FROM history ORDER BY year, month;";
             db.query(query, (err, data) => {
                 if (err) reject(`${err}`);
-                else resolve({ success: true, data: data });
+                else resolve(data);
             });
         });
     }
