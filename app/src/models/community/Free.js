@@ -44,8 +44,10 @@ class Free {
     async showOne() {
         const free = this.body;
         try {
-            const response = await FreeStorage.getFree(free.id);
-            return response;
+            const data = await FreeStorage.getFree(free.id);
+            if (!data.id) // check if posting for this id exist
+                return { success: false, msg: `Posting for this id doesn't exist` };
+            return { success: true, data: data}
         } catch (err) {
             return { success: false, err };
         }
@@ -54,6 +56,9 @@ class Free {
     async modify() {
         const free = this.body;
         try {
+            const { id } = await FreeStorage.getFree(free.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await FreeStorage.update(free);
             return response;
         } catch (err) {
@@ -64,6 +69,9 @@ class Free {
     async remove() {
         const free = this.body;
         try {
+            const { id } = await FreeStorage.getFree(free.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await FreeStorage.delete(free.id);
             return response;
         } catch (err) {

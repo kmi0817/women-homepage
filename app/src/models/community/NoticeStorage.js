@@ -53,8 +53,8 @@ class NoticeStorage {
             db.query(query, [id], (err, data) => {
                 if (err) reject(`${err}`);
                 else {
-                    if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${id} doesn't exist in 'women.notice.id'` });
-                    else resolve({ success: true, data: data[0] });
+                    if (!data.length) resolve({ success: false });
+                    else resolve(data[0]);
                 }
             });
         });

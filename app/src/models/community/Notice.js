@@ -44,8 +44,10 @@ class Notice {
     async showOne() {
         const notice = this.body;
         try {
-            const response = await NoticeStorage.getNotice(notice.id);
-            return response;
+            const data = await NoticeStorage.getNotice(notice.id);
+            if (!data.id) // check if posting for this id exist
+                return { success: false, msg: `Posting for this id doesn't exist` };
+            return { success: true, data: data}
         } catch (err) {
             return { success: false, err };
         }
@@ -54,6 +56,9 @@ class Notice {
     async modify() {
         const notice = this.body;
         try {
+            const { id } = await NoticeStorage.getNotice(notice.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await NoticeStorage.update(notice);
             return response;
         } catch (err) {
@@ -64,6 +69,9 @@ class Notice {
     async remove() {
         const notice = this.body;
         try {
+            const { id } = await NoticeStorage.getNotice(notice.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await NoticeStorage.delete(notice.id);
             return response;
         } catch (err) {

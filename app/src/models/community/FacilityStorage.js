@@ -36,6 +36,19 @@ class FacilityStorage {
         });
     }
 
+    static async getFacility(id) {
+        return new Promise((resolve, reject) => {
+            const query = "SELECT * FROM facility WHERE id=? and is_deleted=0;";
+            db.query(query, [id], (err, data) => {
+                if (err) reject(`${err}`);
+                else {
+                    if (!data.length) resolve({ success: false });
+                    else resolve(data[0]);
+                }
+            });
+        });
+    }
+
     static async save(facilityInfo) {
         return new Promise((resolve, reject) => {
             const query = "INSERT INTO facility(id, title, writer, originalname, filename) VALUES(?, ?, ?, ?, ?);";

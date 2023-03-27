@@ -44,8 +44,10 @@ class Gallery {
     async showOne() {
         const gallery = this.body;
         try {
-            const response = await GalleryStorage.getGallery(gallery.id);
-            return response;
+            const data = await GalleryStorage.getGallery(gallery.id);
+            if (!data.id) // check if posting for this id exist
+                return { success: false, msg: `Posting for this id doesn't exist` };
+            return { success: true, data: data}
         } catch (err) {
             return { success: false, err };
         }
@@ -54,6 +56,9 @@ class Gallery {
     async modify() {
         const gallery = this.body;
         try {
+            const { id } = await GalleryStorage.getGallery(gallery.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await GalleryStorage.update(gallery);
             return response;
         } catch (err) {
@@ -64,6 +69,9 @@ class Gallery {
     async remove() {
         const gallery = this.body;
         try {
+            const { id } = await GalleryStorage.getGallery(gallery.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await GalleryStorage.delete(gallery.id);
             return response;
         } catch (err) {

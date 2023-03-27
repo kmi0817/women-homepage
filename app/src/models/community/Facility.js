@@ -41,6 +41,9 @@ class Facility {
     async modify() {
         const facility = this.body;
         try {
+            const { id } = await FacilityStorage.getFacility(facility.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await FacilityStorage.update(facility);
             return response;
         } catch (err) {
@@ -51,6 +54,9 @@ class Facility {
     async remove() {
         const facility = this.body;
         try {
+            const { id } = await FacilityStorage.getFacility(facility.id); // get id
+            if (!id) // check if postig for this id exist
+                return { success: false, msg: "Posting for this id doesn't exist"}
             const response = await FacilityStorage.delete(facility.id);
             return response;
         } catch (err) {
