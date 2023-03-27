@@ -26,6 +26,10 @@ const output = {
 
         return res.json(response);
     },
+    program: (req, res) => {
+        const response = { success: true };
+        return res.json(response);
+    },
     sostt: async (req, res) => {
         const history = new History(req.body);
         const response = await history.show();
