@@ -3,8 +3,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require("dotenv");
+const path = require("path");
 
 const app = express();
+const publicDirectoryPath = path.join(__dirname, "./src/views");
+
 dotenv.config();
 
 // Routing
@@ -18,6 +21,7 @@ const gallery = require("./src/routes/community/gallery");
 // App Setting
 app.use(bodyParser.json()); // enable bodyParser to parse JSON data
 app.use(bodyParser.urlencoded({ extended: true })); // enable 한글, blank to be included on url
+app.use(express.static(publicDirectoryPath)); // connect to front-end (View)
 
 app.use("/", main);
 app.use("/nanumteo", nanumteo);
