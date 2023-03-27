@@ -54,7 +54,7 @@ class GalleryStorage {
                 if (err) reject(`${err}`);
                 else {
                     if (!data.length) resolve({ success: false, err: `Error: ER_NO_SUCH_COLUMN_VALUE: ${id} doesn't exist in 'women.gallery.id'` });
-                    else resolve({ success: true, data: data });
+                    else resolve({ success: true, data: data[0] });
                 }
             });
         });
