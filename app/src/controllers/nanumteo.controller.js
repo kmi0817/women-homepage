@@ -2,25 +2,25 @@
 
 const { v4: uuid4 } = require("uuid");
 const bcrypt = require("bcrypt");
-const Sponsorship = require("../models/nanumteo/Sponsorship");
-const Volunteerwork = require("../models/nanumteo/Volunteerwork.js");
+const Donation = require("../models/nanumteo/Donation");
+const Volunteer = require("../models/nanumteo/Volunteer.js");
 const Counsel = require("../models/nanumteo/Counsel");
 const CounselComment = require("../models/nanumteo/CounselComment");
 
 const output = {
-    sMain: (req, res) => {
+    donationMain: (req, res) => {
         res.json({ success: true });
     },
-    sApply: (req, res) => {
+    donationApply: (req, res) => {
         res.json({ success: true });
     },
-    vMain: (req, res) => {
+    volunteerMain: (req, res) => {
         res.json({ success: true });
     },
-    vApply: (req, res) => {
+    volunteerApply: (req, res) => {
         res.json({ success: true });
     },
-    cMain: async (req, res) => {
+    counselMain: async (req, res) => {
         const pageNo = Number(req.query.pageNo) || 1; // set page number
         const startNo = (pageNo - 1) * 10; // set start number on that page
         req.body.startNo = startNo; // add startNo in req.body
@@ -37,7 +37,7 @@ const output = {
         const response = await counsel.show();
         return res.json(response);
     },
-    cId: async (req, res) => {
+    counselId: async (req, res) => {
         req.body.id = req.params.id; // add id in req.body
         const counsel = new Counsel(req.body);
         const response1 = await counsel.showOne();
@@ -56,19 +56,19 @@ const output = {
 }
 
 const process = {
-    sApply: async (req, res) => {
+    donationApply: async (req, res) => {
         req.body.id = uuid4(); // add id
-        const sponsorship = new Sponsorship(req.body);
-        const response = await sponsorship.apply();
+        const donation = new Donation(req.body);
+        const response = await donation.apply();
         return res.json(response);
     },
-    vApply: async (req, res) => {
+    volunteerApply: async (req, res) => {
         req.body.id = uuid4(); // add id
-        const volunteerwork = new Volunteerwork(req.body);
-        const response = await volunteerwork.apply();
+        const volunteer = new Volunteer(req.body);
+        const response = await volunteer.apply();
         return res.json(response);
     },
-    cRegister: async (req, res) => {
+    counselRegister: async (req, res) => {
         req.body.id = uuid4(); // add id
         
         // password encryption
@@ -95,10 +95,10 @@ const process = {
         const response = await counsel.register();
         return res.json(response);
     },
-    cmntRegister: async (req, res) => {
+    commentRegister: async (req, res) => {
         req.body.id = uuid4(); // add id
-        const cmnt = new CounselComment(req.body);
-        const response = await cmnt.register();
+        const comment = new CounselComment(req.body);
+        const response = await comment.register();
         return res.json(response);
     },
 }

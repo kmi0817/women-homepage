@@ -2,11 +2,11 @@
 
 const db = require("../../config/db");
 
-class SponsorshipStorage {
-    static async saveCMS(sInfo) {
+class DonationStorage {
+    static async saveCMS(dInfo) {
         return new Promise((resolve, reject) => {
             // 17 Columns
-            const query = `INSERT INTO sponsorship(
+            const query = `INSERT INTO donation(
                 id, name, job, email, addr1, addr2, addr3, tel, recommender, purpose, method,
                 withdrawal_bank, account, depositor, withdrawal_date, amount, period
                 ) 
@@ -14,8 +14,8 @@ class SponsorshipStorage {
             db.query(
                 query,
                 [
-                    sInfo.id, sInfo.name, sInfo.job, sInfo.email, sInfo.addr1, sInfo.addr2, sInfo.addr3, sInfo.tel, sInfo.recommender, sInfo.purpose, sInfo.method,
-                    sInfo.withdrawal_bank, sInfo.account, sInfo.depositor, sInfo.withdrawal_date, sInfo.amount, sInfo.period
+                    dInfo.id, dInfo.name, dInfo.job, dInfo.email, dInfo.addr1, dInfo.addr2, dInfo.addr3, dInfo.tel, dInfo.recommender, dInfo.purpose, dInfo.method,
+                    dInfo.withdrawal_bank, dInfo.account, dInfo.depositor, dInfo.withdrawal_date, dInfo.amount, dInfo.period
                 ],
                 (err) => {
                     if (err) reject(`${err}`);
@@ -25,17 +25,17 @@ class SponsorshipStorage {
         });
     }
 
-    static async save(sInfo) {
+    static async save(dInfo) {
         return new Promise((resolve, reject) => {
             // 11 Columns
-            const query = `INSERT INTO sponsorship(
+            const query = `INSERT INTO donation(
                 id, name, job, email, addr1, addr2, addr3, tel, recommender, purpose, method
                 ) 
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
             db.query(
                 query,
                 [
-                    sInfo.id, sInfo.name, sInfo.job, sInfo.email, sInfo.addr1, sInfo.addr2, sInfo.addr3, sInfo.tel, sInfo.recommender, sInfo.purpose, sInfo.method
+                    dInfo.id, dInfo.name, dInfo.job, dInfo.email, dInfo.addr1, dInfo.addr2, dInfo.addr3, dInfo.tel, dInfo.recommender, dInfo.purpose, dInfo.method
                 ],
                 (err) => {
                     if (err) reject(`${err}`);
@@ -46,4 +46,4 @@ class SponsorshipStorage {
     }
 }
 
-module.exports = SponsorshipStorage;
+module.exports = DonationStorage;

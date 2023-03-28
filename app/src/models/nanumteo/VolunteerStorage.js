@@ -2,12 +2,12 @@
 
 const db = require("../../config/db");
 
-class VolunteerworkStorage {
+class VolunteerStorage {
 
     static async save(vInfo) {
         return new Promise((resolve, reject) => {
             // 13 Columns
-            const query = `INSERT INTO volunteerwork(
+            const query = `INSERT INTO volunteer(
                 id, name, tel, hp, addr1, addr2, addr3, email, experience, description, begin_date, end_date, speak
                 )
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
@@ -26,4 +26,4 @@ class VolunteerworkStorage {
 
 }
 
-module.exports = VolunteerworkStorage;
+module.exports = VolunteerStorage;

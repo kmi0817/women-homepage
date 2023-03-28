@@ -8,9 +8,9 @@ class CounselComment {
     }
 
     async register() {
-        const cmnt = this.body;
+        const comment = this.body;
         try {
-            const response = await CounselCommentStorage.save(cmnt);
+            const response = await CounselCommentStorage.save(comment);
             return response;
         } catch (err) {
             return { success: false, err };
@@ -18,9 +18,9 @@ class CounselComment {
     }
 
     async show() {
-        const cmnt = this.body;
+        const comment = this.body;
         try {
-            const response = await CounselCommentStorage.getComments(cmnt.id);
+            const response = await CounselCommentStorage.getComments(comment.id);
             return response;
         } catch (err) {
             return { success: false, err };

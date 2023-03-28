@@ -6,16 +6,16 @@ const router = express.Router();
 const nanumteoController = require("../../controllers/nanumteo.controller");
 const uploadErrHandle = require("../../config/upload");
 
-router.get("/sponsorship", nanumteoController.output.sMain);
-router.get("/sponsorship/apply", nanumteoController.output.sApply);
-router.get("/volunteerwork", nanumteoController.output.vMain);
-router.get("/volunteerwork/apply", nanumteoController.output.vApply);
-router.get("/counsel", nanumteoController.output.cMain);
-router.get("/counsel/:id", nanumteoController.output.cId);
+router.get("/donation", nanumteoController.output.donationMain);
+router.get("/donation/apply", nanumteoController.output.donationApply);
+router.get("/volunteer", nanumteoController.output.volunteerMain);
+router.get("/volunteer/apply", nanumteoController.output.volunteerApply);
+router.get("/counsel", nanumteoController.output.counselMain);
+router.get("/counsel/:id", nanumteoController.output.counselId);
 
-router.post("/sponsorship/apply", nanumteoController.process.sApply);
-router.post("/volunteerwork/apply", nanumteoController.process.vApply);
-router.post("/counsel", uploadErrHandle, nanumteoController.process.cRegister);
-router.post("/counsel/comment", nanumteoController.process.cmntRegister);
+router.post("/donation/apply", nanumteoController.process.donationApply);
+router.post("/volunteer/apply", nanumteoController.process.volunteerApply);
+router.post("/counsel", uploadErrHandle, nanumteoController.process.counselRegister);
+router.post("/counsel/comment", nanumteoController.process.commentRegister);
 
 module.exports = router;
